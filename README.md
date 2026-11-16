@@ -19,6 +19,9 @@ Next.js 14 + Postgres. Landing con inscripción a la jornada y calculadora, cuen
 - `/panel`, `/panel/cursos`, `/panel/usuarios`, `/panel/csv`
 - `/api/inscripciones`, `/api/stats`, `/jornada.ics`, `/og.png`, `/health`
 
+## Deploy
+Cada push a `main` se despliega solo en Railway (servicio `web`, proyecto `somos-igera`).
+
 ## Local
 ```
 DATABASE_URL=postgres://... ADMIN_EMAILS=vos@mail.com npm run dev
