@@ -54,9 +54,9 @@ function FormLeccion({ curso, l, orden }) {
       <input type="hidden" name="curso" value={curso} />
       {l && <input type="hidden" name="leccion" value={l.id} />}
       <label className="full" htmlFor={`lt-${l?.id || "n"}`}>Título<input id={`lt-${l?.id || "n"}`} name="titulo" defaultValue={l?.titulo} required /></label>
-      <label className="full" htmlFor={`lv-${l?.id || "n"}`}>Video de YouTube<small>Pegá el link del video no listado</small><input id={`lv-${l?.id || "n"}`} name="video" defaultValue={l?.youtube_id ? `https://youtu.be/${l.youtube_id}` : ""} placeholder="https://youtu.be/..." /></label>
+      <label className="full" htmlFor={`lv-${l?.id || "n"}`}>Video de YouTube (no listado)<input id={`lv-${l?.id || "n"}`} name="video" defaultValue={l?.youtube_id ? `https://youtu.be/${l.youtube_id}` : ""} placeholder="https://youtu.be/..." /></label>
       <label className="full" htmlFor={`ld-${l?.id || "n"}`}>Descripción<textarea id={`ld-${l?.id || "n"}`} name="descripcion" defaultValue={l?.descripcion} /></label>
-      <label className="full" htmlFor={`lm-${l?.id || "n"}`}>Material (opcional)<small>Link a un PDF o planilla en Drive</small><input id={`lm-${l?.id || "n"}`} name="material" defaultValue={l?.material_url || ""} placeholder="https://drive.google.com/..." /></label>
+      <label className="full" htmlFor={`lm-${l?.id || "n"}`}>Material (opcional)<input id={`lm-${l?.id || "n"}`} name="material" defaultValue={l?.material_url || ""} placeholder="https://drive.google.com/..." /></label>
       <label htmlFor={`lo-${l?.id || "n"}`}>Orden<input id={`lo-${l?.id || "n"}`} name="orden" type="number" min="1" defaultValue={l?.orden || orden} /></label>
       <label htmlFor={`lmin-${l?.id || "n"}`}>Duración (min)<input id={`lmin-${l?.id || "n"}`} name="minutos" type="number" min="1" defaultValue={l?.minutos || ""} /></label>
       <div className="full"><button className="btn small" type="submit">{l ? "Guardar lección" : "Agregar lección"}</button></div>
@@ -87,7 +87,7 @@ export default async function EditarCurso(props) {
         <form action={guardarCurso} className="panel stack">
           <input type="hidden" name="id" value={c.id} />
           <label htmlFor="ct">Título<input id="ct" name="titulo" defaultValue={c.titulo} required /></label>
-          <label htmlFor="cd">Descripción<small>Qué va a aprender el alumno</small><textarea id="cd" name="descripcion" defaultValue={c.descripcion} /></label>
+          <label htmlFor="cd">Descripción<textarea id="cd" name="descripcion" defaultValue={c.descripcion} /></label>
           <div className="row">
             <label className="check" htmlFor="cp"><input id="cp" name="publicado" type="checkbox" defaultChecked={c.publicado} />Publicado (visible en /cursos)</label>
             <label className="check" htmlFor="cg"><input type="hidden" name="gratuito" value="on" /><input id="cg" type="checkbox" checked readOnly disabled />Gratuito (los pagos llegan en la Fase 3)</label>

@@ -1,10 +1,18 @@
 import Link from "next/link";
-import { exigir } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { exigir, cerrarTodas } from "@/lib/auth";
 import { q } from "@/lib/db";
 import Aviso from "@/components/Aviso";
 
 export const metadata = { title: "Mi cuenta" };
 export const dynamic = "force-dynamic";
+async function salirDeTodo() {
+  "use server";
+  const u = await exigir("alumno", "/cuenta");
+  await cerrarTodas(u.id);
+  redirect("/ingresar");
+}
+
 const ROL = { admin: "Administrador", equipo: "Equipo", alumno: "Alumno" };
 
 export default async function Cuenta(props) {
@@ -34,6 +42,7 @@ export default async function Cuenta(props) {
           </Link>))}
         </div>
       )}
+      <form action={salirDeTodo}><button className="btn ghost small" type="submit">Cerrar sesión en todos los dispositivos</button></form>
     </div>
   );
 }

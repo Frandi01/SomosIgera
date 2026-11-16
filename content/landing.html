@@ -262,12 +262,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 
 <footer><div class="wrap">
   <div><b style="color:var(--ink)">Somos Igera</b> · Crecé. Conectá. Evolucioná.<br>La Plata, Buenos Aires</div>
-  <div>WhatsApp: <b style="color:var(--ink);user-select:all" id="wa-num">+54 9 221 000-0000</b> <span class="tbd">(número provisorio)</span></div>
-</div></footer>
-<a class="wa" id="wa-btn" href="https://wa.me/5492210000000?text=Hola%20Igera%2C%20quiero%20info%20de%20la%20jornada" target="_blank" rel="noopener">WhatsApp</a>
+{{WA_FOOTER}}</div></footer>
+{{WA_BUTTON}}
 
 <script>
 const $=id=>document.getElementById(id);
+const WA="{{WA_DISPLAY}}";
 const ars=n=>isFinite(n)?"$"+Math.round(n).toLocaleString("es-AR"):"—";
 const num=id=>Math.max(0,parseFloat($(id).value)||0);
 let last={};
@@ -326,7 +326,7 @@ $("f").addEventListener("submit",async e=>{
   try{ const r=await fetch("/api/inscripciones",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)}); ok=r.ok; }catch(x){}
   b.disabled=false; b.textContent="Reservar mi lugar"; m.hidden=false;
   if(ok){ m.className="msg ok"; m.replaceChildren(); const t=document.createElement("p"); t.textContent="Listo, "+data.nombre.split(" ")[0]+". Tu lugar quedó reservado para el domingo 29/11 a las 16 h. Te mandamos la sede por mail y WhatsApp."; const a=document.createElement("a"); a.href="/jornada.ics"; a.className="btn ghost"; a.style.marginTop="12px"; a.textContent="Agregar a mi calendario"; m.append(t,a); $("f").reset(); stats(); }
-  else{ m.className="msg err"; m.innerHTML='No pudimos guardar tu inscripción. Probá de nuevo en un minuto o escribinos por WhatsApp al <b style="user-select:all">+54 9 221 000-0000</b>.'; }
+  else{ m.className="msg err"; m.textContent="No pudimos guardar tu inscripción. Probá de nuevo en un minuto"+(WA?" o escribinos por WhatsApp al "+WA+".":"."); }
 });
 </script>
 </body></html>

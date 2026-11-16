@@ -43,7 +43,6 @@ export default async function Usuarios(props) {
             <code style={{ userSelect: "all", wordBreak: "break-all" }}>{origin}/restablecer/{searchParams.link}</code>
           </div>
         )}
-        <p className="muted">{rows.length} cuentas. Los admins gestionan usuarios; el equipo ve inscriptos y carga cursos.</p>
         <div className="tbl"><table>
           <thead><tr><th>Nombre</th><th>Email</th><th>Alta</th><th>Rol</th><th>Contraseña</th></tr></thead>
           <tbody>{rows.map(r => (

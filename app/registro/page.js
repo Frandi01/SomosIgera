@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { crearUsuario, iniciarSesion, normEmail, validEmail, limitar, usuarioActual } from "@/lib/auth";
-import { safePath } from "@/lib/util";
+import { safePath, passwordValida } from "@/lib/util";
 import Aviso from "@/components/Aviso";
 
 export const metadata = { title: "Crear cuenta" };
@@ -16,7 +16,7 @@ async function registrar(fd) {
   const password = String(fd.get("password") || "");
   if (!nombre || !email || !password) back("datos");
   if (!validEmail(email)) back("email");
-  if (password.length < 8) back("corta");
+  if (!passwordValida(password)) back("corta");
   const id = await crearUsuario({ email, nombre, password });
   if (!id) back("existe");
   await iniciarSesion(id);
@@ -37,7 +37,7 @@ export default async function Registro(props) {
         <input type="hidden" name="volver" value={volver} />
         <label htmlFor="r-nombre">Nombre y apellido<input id="r-nombre" name="nombre" autoComplete="name" required /></label>
         <label htmlFor="r-email">Email<input id="r-email" name="email" type="email" autoComplete="email" required /></label>
-        <label htmlFor="r-pass">Contraseña<small>Mínimo 8 caracteres</small><input id="r-pass" name="password" type="password" minLength={8} autoComplete="new-password" required /></label>
+        <label htmlFor="r-pass">Contraseña<small>Mínimo 8 caracteres, con letras y números</small><input id="r-pass" name="password" type="password" minLength={8} autoComplete="new-password" required /></label>
         <button className="btn" type="submit">Crear cuenta</button>
       </form>
       <p className="muted">¿Ya tenés cuenta? <Link href={`/ingresar?volver=${encodeURIComponent(volver)}`}>Ingresá</Link></p>

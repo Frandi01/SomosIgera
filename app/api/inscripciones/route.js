@@ -6,7 +6,9 @@ const hits = globalThis.__igeraHits || (globalThis.__igeraHits = new Map());
 
 export async function POST(req) {
   const ip = (req.headers.get("x-forwarded-for") || "local").split(",")[0].trim();
-  const now = Date.now(), arr = (hits.get(ip) || []).filter(t => now - t < 3600e3);
+  const now = Date.now();
+  if (hits.size > 5000) for (const [k, v] of hits) if (!v.some(t => now - t < 3600e3)) hits.delete(k);
+  const arr = (hits.get(ip) || []).filter(t => now - t < 3600e3);
   arr.push(now); hits.set(ip, arr);
   if (arr.length > 10) return new Response("Demasiados intentos", { status: 429 });
   const text = await req.text();
