@@ -1,9 +1,19 @@
 {
   "name": "somos-igera-web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Somos Igera - landing Fase 1 (inscripción a charlas y calculadora de costos)",
-  "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=18" }
+  "description": "Somos Igera: landing, inscripciones, usuarios y cursos",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p ${PORT:-3000}"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "bcryptjs": "2.4.3",
+    "next": "14.2.15",
+    "pg": "8.13.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
 }
