@@ -8,7 +8,7 @@ export const metadata = { title: "Nueva contraseña", robots: { index: false } }
 async function cambiar(fd) {
   "use server";
   const token = String(fd.get("token") || "");
-  if (await limitar("restablecer", 10)) redirect(`/restablecer/${token}?error=intentos`);
+  if ((await limitar("restablecer", 10)).limitado) redirect(`/restablecer/${token}?error=intentos`);
   const password = String(fd.get("password") || "");
   if (!passwordValida(password)) redirect(`/restablecer/${token}?error=corta`);
   const id = await usarLinkRestablecer(token, password);

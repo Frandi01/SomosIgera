@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { verificar, iniciarSesion, normEmail, limitar, usuarioActual } from "@/lib/auth";
+import { verificar, iniciarSesion, normEmail, limitarIngreso, usuarioActual } from "@/lib/auth";
 import { safePath } from "@/lib/util";
 import Aviso from "@/components/Aviso";
 import { whatsapp } from "@/lib/ajustes";
@@ -11,8 +11,9 @@ async function ingresar(fd) {
   "use server";
   const volver = safePath(fd.get("volver"));
   const back = c => redirect(`/ingresar?error=${c}&volver=${encodeURIComponent(volver)}`);
-  if (await limitar("login", 10)) back("intentos");
-  const id = await verificar(normEmail(fd.get("email")), String(fd.get("password") || ""));
+  const email = normEmail(fd.get("email"));
+  if ((await limitarIngreso(email)).limitado) back("intentos");
+  const id = await verificar(email, String(fd.get("password") || ""));
   if (!id) back("login");
   await iniciarSesion(id);
   redirect(volver);

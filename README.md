@@ -5,6 +5,7 @@ Next.js 14 + Postgres. Landing con inscripción a la jornada y calculadora, cuen
 ## Variables en Railway (servicio `web`)
 - `DATABASE_URL`: `${{Postgres.DATABASE_URL}}`
 - `ADMIN_EMAILS`: mails separados por coma que quedan como admin al registrarse o ingresar.
+- `BACKUP_SECRET`: lo genera la herramienta de backup al instalarse (32+ caracteres).
 - `DATA_DIR=/data`: volumen de la versión anterior. Las inscripciones de `inscripciones.jsonl` se importan solas a Postgres la primera vez.
 
 ## Roles
@@ -26,6 +27,9 @@ Cada push a `main` se despliega solo en Railway (servicio `web`, proyecto `somos
 ```
 DATABASE_URL=postgres://... ADMIN_EMAILS=vos@mail.com npm run dev
 ```
+
+## Copia de seguridad
+Igual que DAIA: `herramientas/backup-windows` instala en la PC una copia semanal (domingos 13:30) que baja `/api/backup` con el header `x-backup-secret` = `BACKUP_SECRET`. Restaurar: `node scripts/restaurar-backup.mjs <copia>.ndjson.gz "<DATABASE_URL>"`.
 
 ## Pendiente
 Logo, colores y WhatsApp oficiales. Mail automático para confirmar inscripción y recuperar contraseña (hoy el admin genera el link desde el panel).

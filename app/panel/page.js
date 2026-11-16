@@ -1,15 +1,24 @@
 import { exigir } from "@/lib/auth";
 import { q } from "@/lib/db";
 import PanelTabs from "@/components/PanelTabs";
+import Link from "next/link";
+import { diasDesdeBackup } from "@/lib/ajustes";
+import { puede } from "@/lib/permisos";
 
 export const metadata = { title: "Panel" };
 export const dynamic = "force-dynamic";
 const ars = n => "$" + Math.round(n).toLocaleString("es-AR");
 
 export default async function Panel() {
-  const u = await exigir("equipo", "/panel");
+  const u = await exigir("inscriptos", "view", "/panel");
   const { rows } = await q("select * from inscripciones order by fecha desc");
   const [{ rows: [us] }] = await Promise.all([q("select count(*)::int n from usuarios where rol='alumno'")]);
+  let avisoBackup = null;
+  if (puede(u.rol, "configuracion")) {
+    const dias = await diasDesdeBackup();
+    if (!process.env.BACKUP_SECRET) avisoBackup = "La copia de seguridad semanal todavía no está instalada.";
+    else if (dias === null || dias > 10) avisoBackup = dias === null ? "Todavía no se hizo ninguna copia de seguridad." : `Hace ${dias} días que no se hace una copia de seguridad.`;
+  }
   const total = rows.reduce((t, r) => t + (r.asistentes || 1), 0);
   const fuentes = Object.entries(rows.reduce((m, r) => (m[r.fuente || "directo"] = (m[r.fuente || "directo"] || 0) + (r.asistentes || 1), m), {})).sort((a, b) => b[1] - a[1]);
   return (
@@ -17,6 +26,7 @@ export default async function Panel() {
       <h1 style={{ marginBottom: 16 }}>Panel</h1>
       <PanelTabs actual="/panel" rol={u.rol} />
       <div className="stack">
+        {avisoBackup && <p className="msg err" role="alert">{avisoBackup} <Link href="/panel/configuracion">Ver configuración</Link></p>}
         <div className="kpis">
           <div className="panel kpi"><span className="muted">Inscriptos a la jornada</span><b>{total}</b><span className="muted">meta 50 · {rows.length} formularios</span></div>
           <div className="panel kpi"><span className="muted">Cuentas de alumnos</span><b>{us.n}</b><span className="muted">{total ? Math.round(100 * us.n / total) : 0}% de los inscriptos · meta 30%</span></div>

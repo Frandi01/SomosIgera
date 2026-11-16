@@ -1,0 +1,14 @@
+COPIA DE SEGURIDAD DE Igera
+
+Instalar (una sola vez): doble clic en "Instalar copia de seguridad.bat" y seguir los pasos.
+Desde ahi, todos los domingos a las 13:30 la PC baja la base completa del panel y la guarda
+en Documentos\Backups Igera (quedan las ultimas 8 copias). Si la PC estaba apagada, la copia
+se hace apenas se prende.
+
+Copia manual: doble clic en "Hacer copia ahora.bat".
+Si una copia falla aparece "ULTIMA COPIA FALLO.txt" en esa carpeta con el motivo, y el panel
+avisa en el inicio si pasaron mas de 10 dias sin copia.
+
+Restaurar (lo hace quien mantenga el sistema):
+  node scripts/restaurar-backup.mjs "<copia>.ndjson.gz" "<DATABASE_URL de la base nueva>"
+La base nueva tiene que tener las tablas creadas antes: alcanza con arrancar la web una vez contra esa base.

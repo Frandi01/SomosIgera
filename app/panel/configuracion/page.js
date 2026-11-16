@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { exigir } from "@/lib/auth";
-import { leerAjustes, guardarAjuste, whatsapp, MENSAJE_WA } from "@/lib/ajustes";
+import { leerAjustes, guardarAjuste, whatsapp, MENSAJE_WA, diasDesdeBackup } from "@/lib/ajustes";
 import { aWaId } from "@/lib/telefono";
 import PanelTabs from "@/components/PanelTabs";
 
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 async function guardarWhatsapp(fd) {
   "use server";
-  await exigir("admin", "/panel/configuracion");
+  await exigir("configuracion", "update", "/panel/configuracion");
   const numero = String(fd.get("numero") || "").trim().slice(0, 40);
   const mensaje = String(fd.get("mensaje") || "").replace(/[\u0000-\u001f]/g, " ").trim().slice(0, 300);
   if (numero && !aWaId(numero)) redirect("/panel/configuracion?error=numero");
@@ -22,9 +22,11 @@ async function guardarWhatsapp(fd) {
 
 export default async function Configuracion(props) {
   const searchParams = await props.searchParams;
-  const u = await exigir("admin", "/panel/configuracion");
+  const u = await exigir("configuracion", "view", "/panel/configuracion");
   const a = await leerAjustes();
   const wa = await whatsapp();
+  const dias = await diasDesdeBackup();
+  const backupListo = Boolean(process.env.BACKUP_SECRET && process.env.BACKUP_SECRET.trim().length >= 32);
   return (
     <div className="wrap section">
       <h1 style={{ marginBottom: 16 }}>Panel</h1>
@@ -37,6 +39,7 @@ export default async function Configuracion(props) {
           <div className="panel kpi"><span className="muted">Número en la página</span><b style={{ fontSize: "1.1rem", marginTop: 6 }}>{wa ? wa.display : "Sin cargar"}</b></div>
           <div className="panel kpi"><span className="muted">Botón de WhatsApp</span><span style={{ marginTop: 6 }}>{wa ? <span className="pill ok">Visible</span> : <span className="pill gray">Oculto</span>}</span></div>
           <div className="panel kpi"><span className="muted">API de Meta</span><span style={{ marginTop: 6 }}><span className="pill gray">Fase 4</span></span></div>
+          <div className="panel kpi"><span className="muted">Copia de seguridad</span><span style={{ marginTop: 6 }}>{!backupListo ? <span className="pill gray">Sin instalar</span> : dias === null ? <span className="pill gray">Nunca</span> : dias > 10 ? <span className="pill" style={{ color: "var(--warn)" }}>Hace {dias} días</span> : <span className="pill ok">{dias === 0 ? "Hoy" : `Hace ${dias} días`}</span>}</span></div>
         </div>
 
         <form action={guardarWhatsapp} className="panel stack" style={{ maxWidth: 560 }}>

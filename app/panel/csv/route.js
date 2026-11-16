@@ -1,9 +1,10 @@
 import { q } from "@/lib/db";
 import { usuarioActual } from "@/lib/auth";
+import { puede } from "@/lib/permisos";
 export const dynamic = "force-dynamic";
 export async function GET() {
   const u = await usuarioActual();
-  if (!u || u.rol === "alumno") return new Response("No autorizado", { status: 401 });
+  if (!u || !puede(u.rol, "inscriptos", "export")) return new Response("No autorizado", { status: 401 });
   const { rows } = await q("select * from inscripciones order by fecha");
   const cols = ["fecha", "nombre", "whatsapp", "email", "negocio", "rubro", "rol", "asistentes", "charla", "origen", "fuente"];
   const esc = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';

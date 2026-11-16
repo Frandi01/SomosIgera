@@ -12,7 +12,7 @@ const back = (id, extra = "") => redirect(`/panel/cursos/${id}${extra}`);
 
 async function guardarCurso(fd) {
   "use server";
-  await exigir("equipo");
+  await exigir("cursos", "update");
   const id = parseInt(fd.get("id"));
   if (!id) redirect("/panel/cursos");
   await q("update cursos set titulo=$1, descripcion=$2, publicado=$3, gratuito=$4 where id=$5", [
@@ -24,7 +24,7 @@ async function guardarCurso(fd) {
 }
 async function guardarLeccion(fd) {
   "use server";
-  await exigir("equipo");
+  await exigir("cursos", "update");
   const curso = parseInt(fd.get("curso")), lid = parseInt(fd.get("leccion")) || null;
   if (!curso) redirect("/panel/cursos");
   const video = String(fd.get("video") || "").trim();
@@ -41,7 +41,7 @@ async function guardarLeccion(fd) {
 }
 async function borrarLeccion(fd) {
   "use server";
-  await exigir("equipo");
+  await exigir("cursos", "delete");
   const curso = parseInt(fd.get("curso")), lid = parseInt(fd.get("leccion"));
   if (!curso || !lid) redirect("/panel/cursos");
   await q("delete from lecciones where id=$1 and curso_id=$2", [lid, curso]);
@@ -66,7 +66,7 @@ function FormLeccion({ curso, l, orden }) {
 
 export default async function EditarCurso(props) {
   const params = await props.params, searchParams = await props.searchParams;
-  const u = await exigir("equipo", `/panel/cursos/${params.id}`);
+  const u = await exigir("cursos", "view", `/panel/cursos/${params.id}`);
   const id = parseInt(params.id);
   if (!id) notFound();
   const { rows: [c] } = await q("select * from cursos where id=$1", [id]);

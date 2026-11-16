@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 async function crear(fd) {
   "use server";
-  await exigir("equipo", "/panel/cursos");
+  await exigir("cursos", "create", "/panel/cursos");
   const titulo = String(fd.get("titulo") || "").trim().slice(0, 140);
   if (!titulo) redirect("/panel/cursos");
   let slug = slugify(titulo);
@@ -21,7 +21,7 @@ async function crear(fd) {
 }
 
 export default async function CursosPanel() {
-  const u = await exigir("equipo", "/panel/cursos");
+  const u = await exigir("cursos", "view", "/panel/cursos");
   const { rows } = await q(
     `select c.*, count(distinct l.id)::int lecciones, count(distinct p.usuario_id)::int alumnos
      from cursos c left join lecciones l on l.curso_id=c.id left join progreso p on p.leccion_id=l.id

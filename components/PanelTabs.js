@@ -1,6 +1,5 @@
 import Link from "next/link";
+import { pestanas } from "@/lib/permisos";
 export default function PanelTabs({ actual, rol }) {
-  const tabs = [["/panel", "Inscriptos"], ["/panel/cursos", "Cursos"]];
-  if (rol === "admin") tabs.push(["/panel/usuarios", "Usuarios"], ["/panel/configuracion", "Configuración"]);
-  return <div className="tabs">{tabs.map(([h, t]) => <Link key={h} href={h} aria-current={actual === h ? "page" : undefined}>{t}</Link>)}</div>;
+  return <div className="tabs">{pestanas(rol).map(([, h, t]) => <Link key={h} href={h} aria-current={actual === h ? "page" : undefined}>{t}</Link>)}</div>;
 }

@@ -1,6 +1,7 @@
 import "./globals.css";
 import Link from "next/link";
 import { usuarioActual } from "@/lib/auth";
+import { pestanas } from "@/lib/permisos";
 
 export const metadata = {
   title: { default: "Somos Igera", template: "%s · Somos Igera" },
@@ -22,7 +23,7 @@ export default async function Layout({ children }) {
           <Link className="logo" href="/"><span className="logo-mark" title="Logo provisorio">LOGO</span>Somos Igera</Link>
           <div className="links">
             <Link href="/cursos">Cursos</Link>
-            {u && u.rol !== "alumno" && <Link href="/panel">Panel</Link>}
+            {u && pestanas(u.rol).length > 0 && <Link href={pestanas(u.rol)[0][1]}>Panel</Link>}
             {u ? (
               <>
                 <Link href="/cuenta">{u.nombre.split(" ")[0]}</Link>

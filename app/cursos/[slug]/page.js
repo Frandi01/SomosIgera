@@ -2,12 +2,13 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { q } from "@/lib/db";
 import { usuarioActual, exigir } from "@/lib/auth";
+import { puede } from "@/lib/permisos";
 
 export const dynamic = "force-dynamic";
 
 async function getCurso(slug, u) {
   const { rows: [c] } = await q("select * from cursos where slug=$1", [slug]);
-  if (!c || (!c.publicado && (!u || u.rol === "alumno"))) return null;
+  if (!c || (!c.publicado && (!u || !puede(u.rol, "cursos", "view")))) return null;
   return c;
 }
 export async function generateMetadata(props) {
@@ -19,7 +20,7 @@ export async function generateMetadata(props) {
 async function marcar(fd) {
   "use server";
   const slug = String(fd.get("slug")), lid = parseInt(fd.get("leccion")), next = parseInt(fd.get("siguiente")) || lid;
-  const u = await exigir("alumno", `/cursos/${slug}`);
+  const u = await exigir("aprender", "view", `/cursos/${slug}`);
   if (!lid) redirect(`/cursos/${slug}`);
   if (fd.get("hecha") === "1") await q("delete from progreso where usuario_id=$1 and leccion_id=$2", [u.id, lid]);
   else await q("insert into progreso (usuario_id,leccion_id) values ($1,$2) on conflict do nothing", [u.id, lid]);
