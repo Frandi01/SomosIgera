@@ -7,7 +7,8 @@ export const metadata = { title: "Mi cuenta" };
 export const dynamic = "force-dynamic";
 const ROL = { admin: "Administrador", equipo: "Equipo", alumno: "Alumno" };
 
-export default async function Cuenta({ searchParams }) {
+export default async function Cuenta(props) {
+  const searchParams = await props.searchParams;
   const u = await exigir("alumno", "/cuenta");
   const { rows } = await q(
     `select c.slug,c.titulo,count(l.id)::int total,count(p.leccion_id)::int hechas

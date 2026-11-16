@@ -10,7 +10,8 @@ async function getCurso(slug, u) {
   if (!c || (!c.publicado && (!u || u.rol === "alumno"))) return null;
   return c;
 }
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { rows: [c] } = await q("select titulo,descripcion from cursos where slug=$1 and publicado", [params.slug]);
   return c ? { title: c.titulo, description: c.descripcion.slice(0, 160) } : { title: "Curso" };
 }
@@ -25,7 +26,8 @@ async function marcar(fd) {
   redirect(`/cursos/${slug}?l=${next}`);
 }
 
-export default async function Curso({ params, searchParams }) {
+export default async function Curso(props) {
+  const params = await props.params, searchParams = await props.searchParams;
   const u = await usuarioActual();
   const c = await getCurso(params.slug, u);
   if (!c) notFound();

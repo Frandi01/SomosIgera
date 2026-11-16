@@ -25,10 +25,11 @@ async function linkClave(fd) {
   redirect(`/panel/usuarios?link=${token}&para=${id}`);
 }
 
-export default async function Usuarios({ searchParams }) {
+export default async function Usuarios(props) {
+  const searchParams = await props.searchParams;
   const yo = await exigir("admin", "/panel/usuarios");
   const { rows } = await q("select id,nombre,email,rol,creado from usuarios order by creado desc");
-  const h = headers();
+  const h = await headers();
   const origin = (h.get("x-forwarded-proto") || "http").split(",")[0] + "://" + (h.get("x-forwarded-host") || h.get("host"));
   const para = rows.find(r => r.id === parseInt(searchParams.para));
   return (

@@ -10,7 +10,7 @@ async function registrar(fd) {
   "use server";
   const volver = safePath(fd.get("volver"));
   const back = c => redirect(`/registro?error=${c}&volver=${encodeURIComponent(volver)}`);
-  if (limitar("registro", 10)) back("intentos");
+  if (await limitar("registro", 10)) back("intentos");
   const nombre = String(fd.get("nombre") || "").trim().slice(0, 120);
   const email = normEmail(fd.get("email"));
   const password = String(fd.get("password") || "");
@@ -23,7 +23,8 @@ async function registrar(fd) {
   redirect(volver);
 }
 
-export default async function Registro({ searchParams }) {
+export default async function Registro(props) {
+  const searchParams = await props.searchParams;
   if (await usuarioActual()) redirect("/cursos");
   const volver = safePath(searchParams.volver);
   return (

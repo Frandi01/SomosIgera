@@ -10,14 +10,15 @@ async function ingresar(fd) {
   "use server";
   const volver = safePath(fd.get("volver"));
   const back = c => redirect(`/ingresar?error=${c}&volver=${encodeURIComponent(volver)}`);
-  if (limitar("login", 10)) back("intentos");
+  if (await limitar("login", 10)) back("intentos");
   const id = await verificar(normEmail(fd.get("email")), String(fd.get("password") || ""));
   if (!id) back("login");
   await iniciarSesion(id);
   redirect(volver);
 }
 
-export default async function Ingresar({ searchParams }) {
+export default async function Ingresar(props) {
+  const searchParams = await props.searchParams;
   if (await usuarioActual()) redirect("/cursos");
   const volver = safePath(searchParams.volver);
   return (

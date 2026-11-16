@@ -7,7 +7,7 @@ export const metadata = { title: "Nueva contraseña", robots: { index: false } }
 async function cambiar(fd) {
   "use server";
   const token = String(fd.get("token") || "");
-  if (limitar("restablecer", 10)) redirect(`/restablecer/${token}?error=intentos`);
+  if (await limitar("restablecer", 10)) redirect(`/restablecer/${token}?error=intentos`);
   const password = String(fd.get("password") || "");
   if (password.length < 8) redirect(`/restablecer/${token}?error=corta`);
   const id = await usarLinkRestablecer(token, password);
@@ -15,7 +15,8 @@ async function cambiar(fd) {
   redirect("/ingresar?ok=clave");
 }
 
-export default function Restablecer({ params, searchParams }) {
+export default async function Restablecer(props) {
+  const params = await props.params, searchParams = await props.searchParams;
   return (
     <div className="wrap narrow section stack">
       <h1>Elegí una contraseña nueva</h1>

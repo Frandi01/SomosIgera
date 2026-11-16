@@ -64,7 +64,8 @@ function FormLeccion({ curso, l, orden }) {
   );
 }
 
-export default async function EditarCurso({ params, searchParams }) {
+export default async function EditarCurso(props) {
+  const params = await props.params, searchParams = await props.searchParams;
   const u = await exigir("equipo", `/panel/cursos/${params.id}`);
   const id = parseInt(params.id);
   if (!id) notFound();
