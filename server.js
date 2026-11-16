@@ -10,10 +10,20 @@ const PORT = process.env.PORT || 3000;
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || "";
 const FILE = path.join(DATA_DIR, "inscripciones.jsonl");
-const INDEX = fs.readFileSync(path.join(__dirname, "public", "index.html"));
+const INDEX = fs.readFileSync(path.join(__dirname, "public", "index.html"), "utf8");
+const OG = fs.readFileSync(path.join(__dirname, "public", "og.png"));
+const ICS = [
+  "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Somos Igera//Jornada//ES", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+  "BEGIN:VEVENT", "UID:jornada-salones-20261129@somosigera", "DTSTAMP:20261116T150000Z",
+  "DTSTART:20261129T190000Z", "DTEND:20261129T220000Z",
+  "SUMMARY:Jornada Somos Igera · Números claros para salones",
+  "DESCRIPTION:Jornada gratuita sobre costos\\, administración y marketing para salones. La sede llega por mail.",
+  "LOCATION:La Plata\\, Buenos Aires",
+  "BEGIN:VALARM", "TRIGGER:-PT3H", "ACTION:DISPLAY", "DESCRIPTION:Hoy es la jornada de Somos Igera", "END:VALARM",
+  "END:VEVENT", "END:VCALENDAR", ""].join("\r\n");
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
-const FIELDS = ["nombre", "whatsapp", "email", "negocio", "rubro", "rol", "asistentes", "charla", "origen"];
+const FIELDS = ["nombre", "whatsapp", "email", "negocio", "rubro", "rol", "asistentes", "charla", "origen", "fuente"];
 const clean = (v, max = 200) => String(v ?? "").replace(/[\u0000-\u001f]/g, " ").trim().slice(0, max);
 
 function readAll() {
@@ -42,6 +52,7 @@ http.createServer((req, res) => {
         const d = JSON.parse(body), row = { fecha: new Date().toISOString() };
         FIELDS.forEach(f => row[f] = clean(d[f]));
         row.asistentes = Math.min(10, Math.max(1, parseInt(d.asistentes) || 1));
+        row.fuente = clean(d.fuente, 20).replace(/[^a-z0-9_-]/gi, "") || "directo";
         if (!row.nombre || !row.whatsapp || !/^\S+@\S+\.\S+$/.test(row.email)) { res.writeHead(400); return res.end("Datos incompletos"); }
         if (d.calculadora && typeof d.calculadora === "object") {
           const c = d.calculadora; row.calculadora = { servicio: clean(c.servicio, 80) };
@@ -71,13 +82,26 @@ http.createServer((req, res) => {
     return res.end(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Inscriptos · Somos Igera</title>
 <style>body{font:14px system-ui;margin:24px;color:#16202E}table{border-collapse:collapse}td,th{border-bottom:1px solid #DDE2EA;padding:6px 10px;text-align:left;white-space:nowrap}th{background:#E8EEF5}div{overflow-x:auto}</style>
 <h1>Inscriptos: ${total} <small style="font-weight:400">(${rows.length} formularios · meta 50)</small></h1>
+<p>Por fuente: ${Object.entries(rows.reduce((m, r) => (m[r.fuente || "directo"] = (m[r.fuente || "directo"] || 0) + (r.asistentes || 1), m), {})).sort((a, b) => b[1] - a[1]).map(([k, v]) => esc(k) + " " + v).join(" · ") || "—"}</p>
 <p><a href="/admin.csv?token=${encodeURIComponent(ADMIN_TOKEN)}">Descargar CSV</a></p>
-<div><table><tr><th>Fecha</th>${FIELDS.map(f => `<th>${f}</th>`).join("")}<th>Costo calc.</th></tr>${tr || '<tr><td colspan="11">Todavía no hay inscriptos.</td></tr>'}</table></div>`);
+<div><table><tr><th>Fecha</th>${FIELDS.map(f => `<th>${f}</th>`).join("")}<th>Costo calc.</th></tr>${tr || '<tr><td colspan="12">Todavía no hay inscriptos.</td></tr>'}</table></div>`);
   }
 
+  if (url.pathname === "/api/stats") {
+    const n = readAll().reduce((t, r) => t + (r.asistentes || 1), 0);
+    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "max-age=60" });
+    return res.end(JSON.stringify({ inscriptos: n }));
+  }
+  if (url.pathname === "/og.png") { res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "max-age=86400" }); return res.end(OG); }
+  if (url.pathname === "/jornada.ics") {
+    res.writeHead(200, { "Content-Type": "text/calendar; charset=utf-8", "Content-Disposition": "attachment; filename=jornada-somos-igera.ics" });
+    return res.end(ICS);
+  }
   if (url.pathname === "/health") { res.writeHead(200); return res.end("ok"); }
   if (req.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) {
-    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" }); return res.end(INDEX);
+    const proto = (req.headers["x-forwarded-proto"] || "http").split(",")[0];
+    const origin = proto + "://" + (req.headers["x-forwarded-host"] || req.headers.host || "localhost");
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" }); return res.end(INDEX.replaceAll("{{ORIGIN}}", origin));
   }
   res.writeHead(302, { Location: "/" }); res.end();
 }).listen(PORT, () => console.log("Igera escuchando en " + PORT));

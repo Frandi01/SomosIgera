@@ -1,4 +1,17 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Somos Igera</title>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Somos Igera · Jornada para salones 29/11</title>
+<meta name="description" content="Jornada gratuita para peluquerías, barberías y salones de La Plata: costos, administración y marketing. Domingo 29/11, 16 h. Probá la calculadora de costos.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Somos Igera">
+<meta property="og:title" content="Tu salón puede ganar más sin trabajar más horas">
+<meta property="og:description" content="Jornada gratuita en La Plata · Domingo 29/11, 16 h · Costos, administración y marketing para salones.">
+<meta property="og:url" content="{{ORIGIN}}/">
+<meta property="og:image" content="{{ORIGIN}}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2F5D8A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232F5D8A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='white' text-anchor='middle'%3EI%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 /* Layout: banda hero + jornada, calculadora de dos columnas (datos / resultado), inscripción, pie con contacto.
@@ -144,6 +157,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
       <div class="row"><span>Para</span><b>Dueños, estilistas y barberos</b></div>
       <div class="row"><span>Costo</span><b>Gratis, con inscripción</b></div>
       <div class="row"><span>Cupos</span><b>Limitados</b></div>
+      <div class="row" id="social" hidden><span>Inscriptos</span><b id="social-n"></b></div>
     </div>
   </aside>
 </div></section></header>
@@ -287,6 +301,9 @@ document.querySelectorAll("#calculadora input").forEach(i=>i.addEventListener("i
 calc();
 
 // Inscripción
+const fuente=(new URLSearchParams(location.search).get("o")||"directo").replace(/[^a-z0-9_-]/gi,"").slice(0,20)||"directo";
+function stats(){ fetch("/api/stats").then(r=>r.ok?r.json():null).then(s=>{ if(s&&s.inscriptos>=10){ $("social-n").textContent=s.inscriptos+" ya se anotaron"; $("social").hidden=false; } }).catch(()=>{}); }
+stats();
 function validar(){
   const req=[["i-nom","tu nombre"],["i-wa","tu WhatsApp"],["i-mail","tu email"],["i-rub","el rubro"],["i-rol","tu rol"]];
   for(const [id,n] of req){ if(!$(id).value.trim()) return "Falta completar "+n+"."; }
@@ -302,12 +319,12 @@ $("f").addEventListener("submit",async e=>{
   et.hidden=true;
   const data={nombre:$("i-nom").value.trim(),whatsapp:$("i-wa").value.trim(),email:$("i-mail").value.trim(),negocio:$("i-neg").value.trim(),
     rubro:$("i-rub").value,rol:$("i-rol").value,asistentes:parseInt($("i-cant").value)||1,charla:$("i-charla").value,origen:$("i-orig").value,
-    calculadora:$("i-calc").checked?last:null};
+    calculadora:$("i-calc").checked?last:null,fuente:fuente};
   const m=$("f-msg"), b=$("f-btn"); b.disabled=true; b.textContent="Guardando…";
   let ok=false;
   try{ const r=await fetch("/api/inscripciones",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)}); ok=r.ok; }catch(x){}
   b.disabled=false; b.textContent="Reservar mi lugar"; m.hidden=false;
-  if(ok){ m.className="msg ok"; m.textContent="Listo, "+data.nombre.split(" ")[0]+". Tu lugar quedó reservado. Te escribimos por WhatsApp con la fecha y la sede."; $("f").reset(); }
+  if(ok){ m.className="msg ok"; m.replaceChildren(); const t=document.createElement("p"); t.textContent="Listo, "+data.nombre.split(" ")[0]+". Tu lugar quedó reservado para el domingo 29/11 a las 16 h. Te mandamos la sede por mail y WhatsApp."; const a=document.createElement("a"); a.href="/jornada.ics"; a.className="btn ghost"; a.style.marginTop="12px"; a.textContent="Agregar a mi calendario"; m.append(t,a); $("f").reset(); stats(); }
   else{ m.className="msg err"; m.innerHTML='No pudimos guardar tu inscripción. Probá de nuevo en un minuto o escribinos por WhatsApp al <b style="user-select:all">+54 9 221 000-0000</b>.'; }
 });
 </script>
