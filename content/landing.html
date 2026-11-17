@@ -15,113 +15,126 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/sitio.css">
-</head><body>
+<script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim")</script>
+</head><body class="inicio">
 
 <div class="band">
   <svg class="marca-agua" viewBox="0 0 100 100" aria-hidden="true"><polygon points="0,20 75,0 100,20 25,40"/><polygon points="0,50 75,30 100,50 25,70"/><polygon points="0,80 75,60 100,80 25,100"/></svg>
   <nav><div class="wrap">
     <a class="logo" href="#inicio"><img src="/marca/logo-blanco.png" width="560" height="169" alt="Somos Igera"></a>
-    <div class="links"><a href="#jornada">Jornada</a><a href="/calculadora">Calculadora</a><a href="/cursos">Cursos</a><a href="/ingresar">Ingresar</a><a href="#inscripcion" class="nav-cta">Inscribirme</a></div>
+    <div class="links"><a href="#problema" class="l-sec">La jornada</a><a href="/calculadora" class="l-sec">Calculadora</a><a href="/cursos" class="l-sec">Cursos</a><a href="/ingresar">Ingresar</a><a href="#inscripcion" class="nav-cta">Inscribirme</a></div>
   </div></nav>
 
   <header class="hero" id="inicio"><div class="wrap">
     <div class="hero-copy">
-      <p class="eyebrow">Jornada gratuita · La Plata</p>
-      <h1>Cuánto te cuesta cada servicio <em>y cuánto te queda.</em></h1>
-      <p class="lead">Una tarde para peluquerías, barberías y salones de belleza: costos, administración y marketing con tus propios números, sin vueltas.</p>
-      <div class="btns" id="hero-cta">
-        <a class="btn" href="#inscripcion">Reservá tu lugar gratis</a>
+      <p class="eyebrow h-in" style="--d:0">Jornada gratuita · La Plata</p>
+      <h1><span class="h-in" style="--d:1">Cuánto te cuesta cada servicio</span> <em class="h-in subraya" style="--d:2">y cuánto te queda.</em></h1>
+      <p class="lead h-in" style="--d:3">Una tarde para peluquerías, barberías y salones: costos, orden y clientes, con tus propios números.</p>
+      <div class="btns h-in" style="--d:4" id="hero-cta">
+        <a class="btn brillo" href="#inscripcion">Reservá tu lugar gratis</a>
+        <a class="link-flecha" href="#problema">Ver de qué se trata</a>
       </div>
-      <div class="hero-meta"><span><b>Domingo 29/11</b> · 16 h</span><span><b>Gratis</b> con inscripción</span><span>Te anotás en <b>1 minuto</b></span></div>
     </div>
-    <aside class="ticket" id="jornada" aria-label="Datos de la jornada">
+    <aside class="ticket h-in" style="--d:3" id="jornada" aria-label="Datos de la jornada">
       <span class="corte">Primera jornada abierta</span>
-      <h3>Números claros para salones de belleza</h3>
       <div class="cuenta" id="cuenta" hidden><b id="cuenta-n"></b><span id="cuenta-t"></span></div>
       <div class="ticket-body">
-        <div class="row"><span>Fecha</span><b>Domingo 29 de noviembre, 16 h</b></div>
-        <div class="row"><span>Lugar</span><b>La Plata<small>Sede por mail a inscriptos</small></b></div>
-        <div class="row"><span>Para</span><b>Dueños, estilistas y barberos</b></div>
-        <div class="row"><span>Costo</span><b>Gratis, con inscripción</b></div>
-        <div class="row"><span>Cupos</span><b>Limitados</b></div>
+        <div class="row"><span>Cuándo</span><b>Domingo 29/11 · 16 h</b></div>
+        <div class="row"><span>Dónde</span><b>La Plata<small>Sede por mail a inscriptos</small></b></div>
+        <div class="row"><span>Costo</span><b>Gratis · cupos limitados</b></div>
         <div class="row" id="social" hidden><span>Inscriptos</span><b id="social-n"></b></div>
       </div>
-      <a class="btn" href="#inscripcion">Quiero mi lugar</a>
     </aside>
   </div></header>
 </div>
 
-<section><div class="wrap">
-  <p class="eyebrow">Qué vas a llevarte</p>
-  <h2 style="margin-top:10px">Tres temas que se aplican <em>el lunes siguiente.</em></h2>
-  <div class="temas">
-    <div class="tema"><span class="tag">COSTOS</span><h3>Cuánto te cuesta de verdad un corte</h3><p>Insumos, alquiler, sueldos y la hora de sillón. Precio sugerido con margen y punto de equilibrio.</p></div>
-    <div class="tema"><span class="tag">ADMINISTRACIÓN</span><h3>Orden sin planillas imposibles</h3><p>Caja diaria, separar plata del negocio y la personal, turnos y ausencias que te comen la semana.</p></div>
-    <div class="tema"><span class="tag">MARKETING</span><h3>Clientes que vuelven y recomiendan</h3><p>Instagram y WhatsApp con método, fidelización y cómo subir precios sin perder clientes.</p></div>
+<!-- 1. PROBLEMA -->
+<section id="problema" class="sec-problema"><div class="wrap">
+  <p class="eyebrow rv">El problema</p>
+  <h2 class="rv" style="--d:1">Trabajás todo el día <em>y no sabés cuánto ganás.</em></h2>
+  <div class="problemas">
+    <article class="prob rv" style="--d:2"><span class="prob-x" aria-hidden="true"></span><h3>Precios “a ojo”</h3><p>Cobrás lo que cobra la competencia, sin saber si cubre insumos, alquiler y tu hora de sillón.</p></article>
+    <article class="prob rv" style="--d:3"><span class="prob-x" aria-hidden="true"></span><h3>La plata se mezcla</h3><p>La caja del salón y la tuya son la misma. A fin de mes no sabés qué fue ganancia.</p></article>
+    <article class="prob rv" style="--d:4"><span class="prob-x" aria-hidden="true"></span><h3>Clientes que no vuelven</h3><p>Vienen una vez y desaparecen. Instagram sin método y la agenda con huecos.</p></article>
   </div>
 </div></section>
 
-<section style="padding-top:0"><div class="wrap">
-  <p class="eyebrow">Para quién es</p>
-  <h2 style="margin-top:10px">Si vivís del sillón, <em>esta tarde es para vos.</em></h2>
-  <div class="para">
-    <div class="tema"><h3>Dueños de salón</h3><p>Querés saber si tus precios cubren alquiler, sueldos e insumos, y cuánto te queda de verdad a fin de mes.</p></div>
-    <div class="tema"><h3>Estilistas y barberos</h3><p>Trabajás por comisión o alquilás sillón y querés cobrar lo que vale tu hora y llenar la agenda.</p></div>
-    <div class="tema"><h3>Por abrir</h3><p>Estás armando tu local y querés arrancar con números claros antes de firmar un alquiler.</p></div>
+<!-- 2. SOLUCIÓN -->
+<section class="sec-solucion"><div class="wrap">
+  <p class="eyebrow rv">La solución</p>
+  <h2 class="rv" style="--d:1">Tres cosas en orden <em>cambian tu mes.</em></h2>
+  <div class="soluciones">
+    <article class="sol rv" style="--d:2"><span class="tag">COSTOS</span><p class="antes"><s>Precios a ojo</s></p><h3>Precio con margen</h3><p>Sabés cuánto te cuesta cada servicio, a cuánto cobrarlo y cuántos necesitás para cubrir el mes.</p></article>
+    <article class="sol rv" style="--d:3"><span class="tag">ADMINISTRACIÓN</span><p class="antes"><s>Plata mezclada</s></p><h3>Caja ordenada</h3><p>Caja diaria simple, plata del negocio separada de la personal y turnos bajo control.</p></article>
+    <article class="sol rv" style="--d:4"><span class="tag">MARKETING</span><p class="antes"><s>Clientes de una vez</s></p><h3>Clientes que vuelven</h3><p>Instagram y WhatsApp con método, fidelización y cómo subir precios sin perder clientes.</p></article>
   </div>
 </div></section>
 
+<!-- 3. CÓMO LO HACEMOS -->
+<section class="sec-como"><div class="wrap">
+  <p class="eyebrow rv">Cómo lo hacemos</p>
+  <h2 class="rv" style="--d:1">Una tarde práctica, <em>con tus números.</em></h2>
+  <ol class="linea rv" style="--d:2">
+    <li><span class="paso-n">1</span><div><b>Antes: cargás tus números</b><p>Opcional. Usás la <a href="/calculadora">calculadora gratuita</a> y lo sumás a tu inscripción.</p></div></li>
+    <li><span class="paso-n">2</span><div><b>Domingo 29/11, 16 h</b><p>Costos, administración y marketing con ejemplos de salones. Sin teoría de más.</p></div></li>
+    <li><span class="paso-n">3</span><div><b>Te vas con un plan</b><p>Tu precio sugerido y qué cambiar el lunes siguiente.</p></div></li>
+  </ol>
+  <div class="para-quien rv" style="--d:3">
+    <span class="pq-t">Es para vos si sos</span>
+    <span class="chip">Dueño/a de salón</span><span class="chip">Estilista o barbero</span><span class="chip">Por abrir tu local</span>
+  </div>
+</div></section>
+
+<!-- 4. INSCRIPCIÓN -->
 <section id="inscripcion" class="insc-sec"><div class="wrap">
   <div class="insc">
-    <div class="insc-copy">
+    <div class="insc-copy rv">
       <p class="eyebrow">Inscripción</p>
-      <h2>Reservá tu lugar <em>en la jornada.</em></h2>
-      <p class="lead">Es gratis. Domingo 29 de noviembre a las 16 h en La Plata.</p>
-      <ol class="pasos" style="grid-template-columns:1fr;margin-top:8px">
-        <li><span><b>Completás el formulario</b>Te lleva un minuto.</span></li>
-        <li><span><b>Te mandamos la sede</b>Por mail y WhatsApp, antes de la jornada.</span></li>
-        <li><span><b>Venís con tu equipo</b>Anotá cuántos son para guardarles lugar.</span></li>
-      </ol>
+      <h2>Reservá tu lugar <em>gratis.</em></h2>
+      <p class="lead">Domingo 29 de noviembre, 16 h, La Plata. Te lleva un minuto.</p>
+      <ul class="lista">
+        <li>Te mandamos la sede por mail y WhatsApp.</li>
+        <li>Podés venir con tu equipo: anotá cuántos son.</li>
+        <li>Cupos limitados.</li>
+      </ul>
     </div>
-    <div class="panel">
+    <div class="panel rv" style="--d:1">
       <form id="f" novalidate>
         <div class="grid">
-          <label for="i-nom">Nombre y apellido<input id="i-nom" name="nombre" autocomplete="name" required></label>
+          <label for="i-nom" class="full">Nombre y apellido<input id="i-nom" name="nombre" autocomplete="name" required></label>
           <label for="i-wa">WhatsApp<input id="i-wa" name="whatsapp" type="tel" inputmode="tel" placeholder="221 555-1234" autocomplete="tel" required></label>
-          <label for="i-mail" class="full">Email<input id="i-mail" name="email" type="email" autocomplete="email" required></label>
+          <label for="i-mail">Email<input id="i-mail" name="email" type="email" autocomplete="email" placeholder="nombre@gmail.com" required></label>
           <label for="i-rub">Rubro<select id="i-rub" name="rubro" required>
-            <option value="">Elegí una opción</option><option>Peluquería</option><option>Barbería</option><option>Estética / uñas</option><option>Otro</option></select></label>
+            <option value="">Elegí</option><option>Peluquería</option><option>Barbería</option><option>Estética / uñas</option><option>Otro</option></select></label>
           <label for="i-rol">Tu rol<select id="i-rol" name="rol" required>
-            <option value="">Elegí una opción</option><option>Dueño/a</option><option>Profesional en relación de dependencia</option><option>Independiente / alquilo sillón</option><option>Estoy por abrir</option></select></label>
-          <label for="i-neg">Salón (opcional)<input id="i-neg" name="negocio"></label>
-          <label for="i-cant">¿Cuántos vienen?<input id="i-cant" name="asistentes" type="number" min="1" max="10" value="1"></label>
-          <label for="i-orig" class="full">¿Cómo nos conociste?<select id="i-orig" name="origen">
-            <option>Instagram</option><option>WhatsApp / recomendación</option><option>Proveedor o distribuidora</option><option>Otro</option></select></label>
+            <option value="">Elegí</option><option>Dueño/a</option><option>Profesional en relación de dependencia</option><option>Independiente / alquilo sillón</option><option>Estoy por abrir</option></select></label>
+          <label for="i-cant" class="full cant">¿Cuántos vienen (con vos)?<input id="i-cant" name="asistentes" type="number" min="1" max="10" value="1"></label>
+          <details class="opc full"><summary>Datos opcionales</summary>
+            <div class="grid">
+              <label for="i-neg">Nombre del salón<input id="i-neg" name="negocio"></label>
+              <label for="i-orig">¿Cómo nos conociste?<select id="i-orig" name="origen">
+                <option>Instagram</option><option>WhatsApp / recomendación</option><option>Proveedor o distribuidora</option><option>Otro</option></select></label>
+            </div>
+          </details>
           <label class="check full" for="i-calc" id="i-calc-l" hidden><input id="i-calc" type="checkbox" checked><span>Sumar mi resultado de la calculadora (<b id="i-calc-s"></b>) para revisarlo en la jornada</span></label>
           <label class="check full" for="i-ok"><input id="i-ok" type="checkbox" required>Acepto que Somos Igera me contacte por WhatsApp y mail sobre esta jornada.</label>
         </div>
-        <p class="err-t" id="f-err" hidden></p>
-        <div class="btns" style="margin-top:16px"><button class="btn" type="submit" id="f-btn">Reservar mi lugar gratis</button></div>
-        <div class="msg" id="f-msg" hidden></div>
+        <p class="err-t" id="f-err" role="alert" hidden></p>
+        <button class="btn btn-full" type="submit" id="f-btn">Reservar mi lugar gratis</button>
+        <div class="msg" id="f-msg" role="status" hidden></div>
       </form>
     </div>
   </div>
 </div></section>
 
-<section><div class="wrap">
-  <p class="eyebrow">Preguntas frecuentes</p>
-  <h2 style="margin-top:10px">Lo que nos <em>preguntan antes de venir.</em></h2>
-  <div class="faq">
-    <details><summary>¿Tiene algún costo?</summary><p>No. La jornada es gratuita; solo pedimos inscripción porque los cupos son limitados.</p></details>
+<section class="sec-faq"><div class="wrap">
+  <p class="eyebrow rv">Preguntas frecuentes</p>
+  <h2 class="rv" style="--d:1">Antes de <em>venir.</em></h2>
+  <div class="faq rv" style="--d:2">
     <details><summary>¿Dónde es?</summary><p>En La Plata. Les mandamos la dirección de la sede a los inscriptos por mail y WhatsApp.</p></details>
+    <details><summary>No soy dueño, trabajo en un salón. ¿Me sirve?</summary><p>Sí. Saber cuánto vale tu hora y cómo lograr que los clientes vuelvan sirve si trabajás por comisión o alquilás sillón.</p></details>
     <details><summary>¿Puedo ir con mi equipo?</summary><p>Sí. En el formulario anotá cuántos vienen y les guardamos lugar a todos.</p></details>
-    <details><summary>No soy dueño, trabajo en un salón. ¿Me sirve?</summary><p>Sí. Ver cuánto vale tu hora y cómo conseguir clientes que vuelvan sirve tanto si tenés local como si trabajás por comisión o alquilás sillón.</p></details>
-    <details><summary>¿Tengo que llevar algo?</summary><p>Si querés aprovecharla más, traé una idea de tus gastos del mes. Podés cargarlos antes en la calculadora y sumarlos a tu inscripción.</p></details>
-  </div>
-
-  <div class="banda-calc">
-    <div><h3>¿Querés ver tus números antes?</h3><p>Calculá cuánto te cuesta cada servicio y a cuánto cobrarlo. Es gratis.</p></div>
-    <a class="btn" href="/calculadora">Probar la calculadora</a>
+    <details><summary>¿Tengo que llevar algo?</summary><p>No es obligatorio. Si querés aprovecharla más, cargá tus gastos en la calculadora y sumalos a tu inscripción.</p></details>
   </div>
 </div></section>
 
@@ -135,14 +148,26 @@
 const $=id=>document.getElementById(id);
 const WA="{{WA_DISPLAY}}";
 const ars=n=>"$"+Math.round(n).toLocaleString("es-AR");
+const ANIM=document.documentElement.classList.contains("anim");
+if(ANIM) requestAnimationFrame(()=>document.documentElement.classList.add("listo"));
 
-// Cuenta regresiva a la jornada (domingo 29/11/2026, 16 h Argentina)
+// Aparición al hacer scroll (sin JS o con movimiento reducido, todo se ve normal)
+if(ANIM&&"IntersectionObserver" in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }),{threshold:.18,rootMargin:"0px 0px -40px 0px"});
+  document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+}else document.querySelectorAll(".rv").forEach(el=>el.classList.add("in"));
+
+// Cuenta regresiva a la jornada (domingo 29/11/2026, 16 h Argentina), con conteo animado
 (function(){
   const dias=Math.ceil((new Date("2026-11-29T16:00:00-03:00")-Date.now())/864e5);
   if(dias<0) return;
-  $("cuenta-n").textContent=dias===0?"Hoy":dias;
+  const n=$("cuenta-n");
   $("cuenta-t").textContent=dias===0?"es la jornada, 16 h":dias===1?"día para la jornada":"días para la jornada";
   $("cuenta").hidden=false;
+  if(dias===0){ n.textContent="Hoy"; return; }
+  if(!ANIM){ n.textContent=dias; return; }
+  const t0=performance.now(), dur=900;
+  (function paso(t){ const k=Math.min(1,(t-t0)/dur); n.textContent=Math.round(dias*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(paso); })(t0);
 })();
 
 // Resultado de la calculadora (si la usó en este navegador)
@@ -171,10 +196,12 @@ function validar(){
   if(!$("i-ok").checked) return ["i-ok","Marcá la casilla para que podamos contactarte."];
   return null;
 }
+document.querySelectorAll("#f input,#f select").forEach(el=>el.addEventListener("input",()=>el.removeAttribute("aria-invalid")));
 $("f").addEventListener("submit",async e=>{
   e.preventDefault();
   const err=validar(), et=$("f-err");
-  if(err){et.textContent=err[1];et.hidden=false;$(err[0]).focus();return;}
+  document.querySelectorAll("#f [aria-invalid]").forEach(el=>el.removeAttribute("aria-invalid"));
+  if(err){et.textContent=err[1];et.hidden=false;const c=$(err[0]);c.setAttribute("aria-invalid","true");c.focus();return;}
   et.hidden=true;
   const data={nombre:$("i-nom").value.trim(),whatsapp:$("i-wa").value.trim(),email:$("i-mail").value.trim(),negocio:$("i-neg").value.trim(),
     rubro:$("i-rub").value,rol:$("i-rol").value,asistentes:parseInt($("i-cant").value)||1,charla:"Jornada salones de belleza · La Plata",origen:$("i-orig").value,
@@ -185,9 +212,11 @@ $("f").addEventListener("submit",async e=>{
   b.disabled=false; b.textContent="Reservar mi lugar gratis"; m.hidden=false;
   if(ok){
     m.className="msg ok"; m.replaceChildren();
+    m.insertAdjacentHTML("afterbegin",'<svg class="tilde" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>');
     const t=document.createElement("p"); t.textContent="Listo, "+data.nombre.split(" ")[0]+". Tu lugar quedó reservado para el domingo 29/11 a las 16 h. Te mandamos la sede por mail y WhatsApp.";
     const a=document.createElement("a"); a.href="/jornada.ics"; a.className="btn ghost"; a.style.marginTop="12px"; a.textContent="Agregar a mi calendario";
-    m.append(t,a); $("f").reset(); $("i-calc-l").hidden=true; try{sessionStorage.removeItem("igera_calc");}catch(x){} calcRes=null; stats();
+    const d=document.createElement("div"); d.append(t,a); m.append(d);
+    $("f").reset(); $("i-calc-l").hidden=true; try{sessionStorage.removeItem("igera_calc");}catch(x){} calcRes=null; stats();
     m.scrollIntoView({block:"center"});
   }
   else{ m.className="msg err"; m.textContent="No pudimos guardar tu inscripción. Probá de nuevo en un minuto"+(WA?" o escribinos por WhatsApp al "+WA+".":"."); }
