@@ -15,7 +15,7 @@ export async function GET(req) {
   const html = HTML
     .replaceAll("{{ORIGIN}}", origin)
     .replaceAll("{{WA_DISPLAY}}", wa ? wa.display : "")
-    .replace("{{WA_FOOTER}}", wa ? `  <div>WhatsApp: <a href="${wa.link}" target="_blank" rel="noopener" style="color:var(--ink);font-weight:700">${wa.display}</a></div>\n` : "")
+    .replace("{{WA_FOOTER}}", wa ? `  <div class="foot-wa"><span class="muted">WhatsApp</span><br><a href="${wa.link}" target="_blank" rel="noopener">${wa.display}</a></div>\n` : "")
     .replace("{{WA_BUTTON}}", wa ? `<a class="wa" href="${wa.link}" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">WhatsApp</a>` : "");
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
 }

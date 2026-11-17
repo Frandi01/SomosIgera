@@ -4,23 +4,22 @@ import { usuarioActual } from "@/lib/auth";
 import { pestanas } from "@/lib/permisos";
 
 export const metadata = {
-  title: { default: "Somos Igera", template: "%s · Somos Igera" },
-  description: "Formación práctica para emprendedores de La Plata.",
-  icons: { icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232F5D8A'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='38' font-weight='700' fill='white' text-anchor='middle'%3EI%3C/text%3E%3C/svg%3E" },
+  title: { default: "Grupo Igera", template: "%s · Grupo Igera" },
+  description: "Marketing y gestión para emprendedores de La Plata. Negocios coherentes. Decisiones inteligentes.",
+  icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }], apple: "/apple-touch-icon.png" },
 };
-export const viewport = { themeColor: "#2F5D8A", width: "device-width", initialScale: 1, viewportFit: "cover" };
+export const viewport = { themeColor: "#342446", width: "device-width", initialScale: 1, viewportFit: "cover" };
 
 export default async function Layout({ children }) {
   const u = await usuarioActual();
   return (
     <html lang="es">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" />
+        <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossOrigin="" />
       </head>
       <body>
         <nav className="top"><div className="wrap">
-          <Link className="logo" href="/"><span className="logo-mark" title="Logo provisorio">LOGO</span>Somos Igera</Link>
+          <Link className="logo" href="/"><img src="/marca/logo-blanco.png" width={560} height={169} alt="Grupo Igera" /></Link>
           <div className="links">
             <Link href="/cursos">Cursos</Link>
             {u && pestanas(u.rol).length > 0 && <Link href={pestanas(u.rol)[0][1]}>Panel</Link>}
@@ -38,7 +37,10 @@ export default async function Layout({ children }) {
           </div>
         </div></nav>
         <main>{children}</main>
-        <footer className="foot"><div className="wrap">Somos Igera · Crecé. Conectá. Evolucioná. · La Plata, Buenos Aires</div></footer>
+        <footer className="foot"><div className="wrap">
+          <img src="/marca/firma-blanco.png" width={640} height={93} alt="Grupo Igera" />
+          <span>Negocios coherentes. <em>Decisiones inteligentes.</em></span>
+        </div></footer>
       </body>
     </html>
   );

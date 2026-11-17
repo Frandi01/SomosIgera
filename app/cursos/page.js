@@ -2,7 +2,7 @@ import Link from "next/link";
 import { q } from "@/lib/db";
 import { usuarioActual } from "@/lib/auth";
 
-export const metadata = { title: "Cursos", description: "Cursos gratuitos de Somos Igera para emprendedores: costos, administración y marketing." };
+export const metadata = { title: "Cursos", description: "Cursos gratuitos de Grupo Igera para emprendedores: costos, administración y marketing." };
 export const dynamic = "force-dynamic";
 
 export default async function Cursos() {

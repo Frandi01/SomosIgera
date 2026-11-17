@@ -22,4 +22,4 @@ export function proxy(req) {
   }
   return NextResponse.next();
 }
-export const config = { matcher: ["/((?!_next/static|_next/image|og.png|health).*)"] };
+export const config = { matcher: ["/((?!_next/static|_next/image|og.png|health|marca/|fonts/|favicon.svg|apple-touch-icon.png).*)"] };
