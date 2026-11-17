@@ -21,6 +21,7 @@ export default async function Layout({ children }) {
         <nav className="top"><div className="wrap">
           <Link className="logo" href="/"><img src="/marca/logo-blanco.png" width={560} height={169} alt="Somos Igera" /></Link>
           <div className="links">
+            <a href="/calculadora">Calculadora</a>
             <Link href="/cursos">Cursos</Link>
             {u && pestanas(u.rol).length > 0 && <Link href={pestanas(u.rol)[0][1]}>Panel</Link>}
             {u ? (

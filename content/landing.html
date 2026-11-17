@@ -1,5 +1,5 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Somos Igera · Jornada para salones 29/11</title>
-<meta name="description" content="Jornada gratuita para peluquerías, barberías y salones de La Plata: costos, administración y marketing. Domingo 29/11, 16 h. Probá la calculadora de costos.">
+<meta name="description" content="Jornada gratuita para peluquerías, barberías y salones de La Plata: costos, administración y marketing. Domingo 29/11, 16 h. Cupos limitados.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_AR">
 <meta property="og:site_name" content="Somos Igera">
@@ -14,157 +14,14 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
-<style>
-/* Somos Igera · manual de identidad v2 (25/10/2026).
-   Layout: banda berenjena con logo, marca de agua del símbolo y corte inclinado (hero + jornada),
-   temas, calculadora con resultado en bloque oscuro, inscripción y pie berenjena.
-   Regla del manual: fondo berenjena + énfasis coral, o fondo marfil + énfasis terracota.
-   Coral sobre marfil no se usa para texto. Terracota en texto chico va en su variante --accent-txt. */
-@font-face{font-family:"Archivo";src:url(/fonts/archivo.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
-:root{
-  --bg:#FFF8ED; --surface:#FFFDF9; --ink:#342446; --muted:#766C80; --line:#EADFD4; --soft:#F7E7DD;
-  --accent:#C75D43; --accent-txt:#A9483A;
-  --btn:#342446; --btn-ink:#FFF8ED;
-  --band:#342446; --band-2:#3E2C52; --band-ink:#FFF8ED; --band-muted:#B9AFC4; --band-accent:#F58B70; --band-line:#54426A;
-  --ticket:#FFF8ED; --ticket-ink:#342446; --ticket-muted:#766C80; --ticket-line:#EADFD4;
-  --ok:#3E7B5C;
-  --f:"Archivo","Arial Narrow",Arial,sans-serif;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#211629; --surface:#2C1F3A; --ink:#FFF8ED; --muted:#B9AFC4; --line:#45365A; --soft:#3A2A4C;
-  --accent:#F58B70; --accent-txt:#F58B70; --btn:#F58B70; --btn-ink:#342446;
-  --ticket:#3E2C52; --ticket-ink:#FFF8ED; --ticket-muted:#B9AFC4; --ticket-line:#54426A;
-  --ok:#7CC3A0; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#211629; --surface:#2C1F3A; --ink:#FFF8ED; --muted:#B9AFC4; --line:#45365A; --soft:#3A2A4C;
-  --accent:#F58B70; --accent-txt:#F58B70; --btn:#F58B70; --btn-ink:#342446;
-  --ticket:#3E2C52; --ticket-ink:#FFF8ED; --ticket-muted:#B9AFC4; --ticket-line:#54426A;
-  --ok:#7CC3A0; color-scheme:dark}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16.5px;line-height:1.55;font-variant-numeric:tabular-nums}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-section{padding-block:64px}
-h1,h2{font-family:var(--f);font-weight:800;font-stretch:75%;line-height:1;letter-spacing:-.005em;text-wrap:balance;margin:0}
-h1{font-size:clamp(2.7rem,6.4vw,4.8rem)}
-h2{font-size:clamp(2rem,4.2vw,3rem)}
-h3{font-size:1.15rem;font-weight:700;line-height:1.25;margin:0;text-wrap:balance}
-p{margin:0}
-em{font-style:normal;color:var(--accent)}
-.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-txt)}
-.lead{color:var(--muted);font-size:1.12rem;max-width:58ch}
-a{color:var(--accent-txt)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-
-/* banda superior: nav + hero, siempre berenjena */
-.band{position:relative;overflow:hidden;background:var(--band);color:var(--band-ink);
-  clip-path:polygon(0 0,100% 0,100% calc(100% - 56px),0 100%);padding-bottom:56px}
-.band .eyebrow{color:var(--band-accent)}
-.band em{color:var(--band-accent)}
-.band .lead{color:var(--band-muted)}
-.marca-agua{position:absolute;right:-140px;top:-60px;width:min(760px,90vw);height:auto;opacity:.07;pointer-events:none}
-.marca-agua polygon{fill:var(--band-ink)}
-nav{position:relative}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px;flex-wrap:wrap}
-.logo{display:block;line-height:0}
-.logo img{height:46px;width:auto}
-.links{display:flex;gap:22px;flex-wrap:wrap;align-items:center;font-size:.98rem}
-.links a{color:var(--band-muted);text-decoration:none}.links a:hover{color:var(--band-ink)}
-.links .nav-cta{color:var(--band-accent);font-weight:700}
-.hero{position:relative;padding-block:40px 32px}
-.hero .wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:center}
-.hero-copy{display:flex;flex-direction:column;gap:22px;min-width:0}
-.btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:4px;font:700 1rem var(--f);text-decoration:none;border:2px solid var(--btn);cursor:pointer;background:var(--btn);color:var(--btn-ink)}
-.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
-.band .btn{background:var(--band-accent);border-color:var(--band-accent);color:var(--band)}
-.band .btn.ghost{background:transparent;color:var(--band-ink);border-color:var(--band-ink)}
-.btn:hover{filter:brightness(1.07)}
-.btn:disabled{opacity:.6;cursor:default}
-
-.ticket{background:var(--ticket);color:var(--ticket-ink);border-radius:4px;padding:26px;display:flex;flex-direction:column;gap:16px;min-width:0}
-.ticket h3{font-weight:800;font-stretch:75%;font-size:1.9rem;line-height:1.05}
-.corte{display:inline-block;align-self:flex-start;background:var(--band);color:var(--band-ink);font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 18px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
-.ticket-body{display:grid;gap:10px}
-.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--ticket-line);padding-bottom:9px;font-size:.98rem}
-.row span{color:var(--ticket-muted)}
-.row:last-child{border:0;padding:0}
-.row b{text-align:right}
-.row small{display:block;font-weight:400;color:var(--ticket-muted)}
-
-/* temas */
-.temas{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
-.tema{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:10px}
-.tema p{color:var(--muted)}
-.tag{display:flex;align-items:center;gap:10px;font-size:.76rem;font-weight:700;letter-spacing:.16em;color:var(--accent-txt)}
-.tag::before,.lista li::before{content:"";width:22px;height:10px;background:var(--accent);clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%);flex:none}
-
-/* calculadora */
-.calc-sec{background:var(--surface);border-block:1px solid var(--line)}
-.calc{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;margin-top:32px;align-items:start}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:24px;min-width:0}
-.calc-sec .panel{background:var(--bg)}
-fieldset{border:0;padding:0;margin:0 0 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-legend{font-weight:700;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding:0}
-label{display:flex;flex-direction:column;gap:5px;font-size:.92rem;font-weight:600;min-width:0}
-label small{font-weight:400;color:var(--muted)}
-input,select,textarea{font:inherit;font-size:1rem;padding:11px 12px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);width:100%}
-input:focus,select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
-.sample{display:inline-block;font-size:.8rem;font-weight:700;background:var(--soft);color:var(--accent-txt);padding:4px 10px;border-radius:2px;margin-bottom:16px}
-.res{position:sticky;top:16px;background:var(--band);color:var(--band-ink);border-radius:4px;padding:28px;overflow:hidden}
-.res .eyebrow{color:var(--band-accent)}
-.big{font-weight:800;font-stretch:75%;font-size:clamp(3rem,6vw,4.2rem);line-height:1;color:var(--band-accent);margin-top:8px}
-.res-grid{display:grid;gap:12px;margin-top:20px}
-.res-item{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--band-line);padding-bottom:10px}
-.res-item span{color:var(--band-muted);font-size:.95rem}
-.res-item b{font-weight:800;font-stretch:75%;font-size:1.35rem;text-align:right}
-.verdict{margin-top:18px;padding:13px 15px;border-radius:2px;font-size:.96rem;background:var(--band-2);border-left:4px solid var(--band-muted)}
-.verdict.bad{border-left-color:var(--band-accent)}
-.verdict.good{border-left-color:#7CC3A0}
-.note{font-size:.85rem;color:var(--band-muted);margin-top:14px}
-.res .btns{margin-top:18px}
-.res .btn{background:var(--band-accent);border-color:var(--band-accent);color:var(--band)}
-
-/* inscripción */
-.insc{display:grid;grid-template-columns:1fr 1.3fr;gap:40px;align-items:start}
-.insc-copy{display:flex;flex-direction:column;gap:16px;min-width:0}
-.lista{margin:0;padding:0;list-style:none;display:grid;gap:10px;color:var(--muted)}
-.lista li{display:flex;gap:12px;align-items:baseline}
-form .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-form .full{grid-column:1/-1}
-.check{flex-direction:row;align-items:flex-start;gap:10px;font-weight:400;font-size:.94rem}
-.check input{width:auto;margin-top:4px;accent-color:var(--accent)}
-.msg{margin-top:16px;padding:13px 15px;border-radius:2px;font-size:.98rem;background:var(--soft)}
-.msg.ok{border-left:4px solid var(--ok)}
-.msg.err{border-left:4px solid var(--accent)}
-.err-t{color:var(--accent-txt);font-size:.88rem;font-weight:600}
-
-/* pie */
-footer{background:var(--band);color:var(--band-ink);clip-path:polygon(0 40px,100% 0,100% 100%,0 100%);padding-top:40px}
-footer .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding-block:40px;font-size:.95rem}
-footer img{height:22px;width:auto;display:block;margin-bottom:14px}
-footer .lema{font-weight:800;font-stretch:75%;font-size:1.45rem;line-height:1.1}
-footer .lema em{color:var(--band-accent)}
-footer .muted{color:var(--band-muted)}
-.foot-wa a{color:var(--band-accent);font-weight:700}
-.wa{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--band-accent);color:var(--band);border-radius:4px;padding:13px 20px;font-weight:700;text-decoration:none;box-shadow:0 8px 24px rgba(33,22,41,.28)}
-
-@media (max-width:860px){
-  .hero .wrap,.calc,.insc{grid-template-columns:1fr}
-  .temas{grid-template-columns:1fr}
-  .res{position:static}
-  .hero .wrap{gap:32px}
-}
-@media (max-width:480px){fieldset,form .grid{grid-template-columns:1fr} .logo img{height:40px} .links{gap:16px}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style></head><body>
+<link rel="stylesheet" href="/sitio.css">
+</head><body>
 
 <div class="band">
   <svg class="marca-agua" viewBox="0 0 100 100" aria-hidden="true"><polygon points="0,20 75,0 100,20 25,40"/><polygon points="0,50 75,30 100,50 25,70"/><polygon points="0,80 75,60 100,80 25,100"/></svg>
   <nav><div class="wrap">
     <a class="logo" href="#inicio"><img src="/marca/logo-blanco.png" width="560" height="169" alt="Somos Igera"></a>
-    <div class="links"><a href="#jornada">Jornada</a><a href="#calculadora">Calculadora</a><a href="/cursos">Cursos</a><a href="/ingresar" class="nav-cta">Ingresar</a></div>
+    <div class="links"><a href="#jornada">Jornada</a><a href="/calculadora">Calculadora</a><a href="/cursos">Cursos</a><a href="/ingresar">Ingresar</a><a href="#inscripcion" class="nav-cta">Inscribirme</a></div>
   </div></nav>
 
   <header class="hero" id="inicio"><div class="wrap">
@@ -172,14 +29,15 @@ footer .muted{color:var(--band-muted)}
       <p class="eyebrow">Jornada gratuita · La Plata</p>
       <h1>Cuánto te cuesta cada servicio <em>y cuánto te queda.</em></h1>
       <p class="lead">Una tarde para peluquerías, barberías y salones de belleza: costos, administración y marketing con tus propios números, sin vueltas.</p>
-      <div class="btns">
+      <div class="btns" id="hero-cta">
         <a class="btn" href="#inscripcion">Reservá tu lugar gratis</a>
-        <a class="btn ghost" href="#calculadora">Probá la calculadora</a>
       </div>
+      <div class="hero-meta"><span><b>Domingo 29/11</b> · 16 h</span><span><b>Gratis</b> con inscripción</span><span>Te anotás en <b>1 minuto</b></span></div>
     </div>
     <aside class="ticket" id="jornada" aria-label="Datos de la jornada">
       <span class="corte">Primera jornada abierta</span>
       <h3>Números claros para salones de belleza</h3>
+      <div class="cuenta" id="cuenta" hidden><b id="cuenta-n"></b><span id="cuenta-t"></span></div>
       <div class="ticket-body">
         <div class="row"><span>Fecha</span><b>Domingo 29 de noviembre, 16 h</b></div>
         <div class="row"><span>Lugar</span><b>La Plata<small>Sede por mail a inscriptos</small></b></div>
@@ -188,6 +46,7 @@ footer .muted{color:var(--band-muted)}
         <div class="row"><span>Cupos</span><b>Limitados</b></div>
         <div class="row" id="social" hidden><span>Inscriptos</span><b id="social-n"></b></div>
       </div>
+      <a class="btn" href="#inscripcion">Quiero mi lugar</a>
     </aside>
   </div></header>
 </div>
@@ -202,64 +61,27 @@ footer .muted{color:var(--band-muted)}
   </div>
 </div></section>
 
-<section id="calculadora" class="calc-sec"><div class="wrap">
-  <p class="eyebrow">Herramienta gratuita</p>
-  <h2 style="margin-top:10px">Calculadora de costos <em>para salones.</em></h2>
-  <p class="lead" style="margin-top:14px">Cargá tus números del mes: cuánto te cuesta cada servicio, a cuánto cobrarlo y cuántos servicios necesitás para cubrir gastos.</p>
-
-  <div class="calc">
-    <div class="panel">
-      <span class="sample" id="sampleTag">Datos de ejemplo, cambialos por los tuyos</span>
-      <fieldset><legend>Gastos fijos del mes ($)</legend>
-        <label for="c-alq">Alquiler<input id="c-alq" type="number" min="0" step="1000" value="650000"></label>
-        <label for="c-serv">Luz, agua, gas e internet<input id="c-serv" type="number" min="0" step="1000" value="180000"></label>
-        <label for="c-suel">Sueldos y comisiones fijas<input id="c-suel" type="number" min="0" step="1000" value="1400000"></label>
-        <label for="c-imp">Monotributo e impuestos<input id="c-imp" type="number" min="0" step="1000" value="120000"></label>
-        <label for="c-otros" style="grid-column:1/-1">Otros (software, publicidad, limpieza)<input id="c-otros" type="number" min="0" step="1000" value="150000"></label>
-      </fieldset>
-      <fieldset><legend>Capacidad</legend>
-        <label for="c-sill">Sillones o puestos<input id="c-sill" type="number" min="1" step="1" value="3"></label>
-        <label for="c-hs">Horas abiertas por mes<small>ej: 9 h × 24 días</small><input id="c-hs" type="number" min="1" step="1" value="216"></label>
-        <label for="c-ocup" style="grid-column:1/-1">Ocupación real (%)<small>Qué parte de esas horas tenés clientes</small><input id="c-ocup" type="number" min="1" max="100" step="1" value="55"></label>
-      </fieldset>
-      <fieldset><legend>El servicio a calcular</legend>
-        <label for="c-nom" style="grid-column:1/-1">Servicio<input id="c-nom" type="text" value="Corte y brushing"></label>
-        <label for="c-min">Duración (minutos)<input id="c-min" type="number" min="5" step="5" value="60"></label>
-        <label for="c-ins">Insumos por servicio ($)<input id="c-ins" type="number" min="0" step="100" value="4500"></label>
-        <label for="c-com">Comisión al profesional (%)<input id="c-com" type="number" min="0" max="90" step="1" value="0"></label>
-        <label for="c-mar">Margen que querés (%)<input id="c-mar" type="number" min="0" max="300" step="1" value="35"></label>
-        <label for="c-prec" style="grid-column:1/-1">Precio que cobrás hoy ($)<input id="c-prec" type="number" min="0" step="500" value="22000"></label>
-      </fieldset>
-    </div>
-
-    <div class="res" aria-live="polite">
-      <p class="eyebrow">Costo real de <span id="r-nom">tu servicio</span></p>
-      <div class="big" id="r-costo">$0</div>
-      <div class="res-grid">
-        <div class="res-item"><span>Costo fijo por hora ocupada</span><b id="r-hora">$0</b></div>
-        <div class="res-item"><span>Precio sugerido con tu margen</span><b id="r-sug">$0</b></div>
-        <div class="res-item"><span>Ganancia por servicio hoy</span><b id="r-gan">$0</b></div>
-        <div class="res-item"><span>Servicios al mes para cubrir gastos</span><b id="r-eq">0</b></div>
-        <div class="res-item"><span>Servicios que hoy hacés al mes (estimado)</span><b id="r-cap">0</b></div>
-      </div>
-      <div class="verdict" id="r-ver"></div>
-      <p class="note">Los gastos fijos se reparten solo entre las horas en que hay clientes. Por eso la ocupación pesa tanto en el costo. En la jornada vemos cómo subirla.</p>
-      <div class="btns"><a class="btn" href="#inscripcion">Quiero revisar mis números en la jornada</a></div>
-    </div>
+<section style="padding-top:0"><div class="wrap">
+  <p class="eyebrow">Para quién es</p>
+  <h2 style="margin-top:10px">Si vivís del sillón, <em>esta tarde es para vos.</em></h2>
+  <div class="para">
+    <div class="tema"><h3>Dueños de salón</h3><p>Querés saber si tus precios cubren alquiler, sueldos e insumos, y cuánto te queda de verdad a fin de mes.</p></div>
+    <div class="tema"><h3>Estilistas y barberos</h3><p>Trabajás por comisión o alquilás sillón y querés cobrar lo que vale tu hora y llenar la agenda.</p></div>
+    <div class="tema"><h3>Por abrir</h3><p>Estás armando tu local y querés arrancar con números claros antes de firmar un alquiler.</p></div>
   </div>
 </div></section>
 
-<section id="inscripcion"><div class="wrap">
+<section id="inscripcion" class="insc-sec"><div class="wrap">
   <div class="insc">
     <div class="insc-copy">
       <p class="eyebrow">Inscripción</p>
       <h2>Reservá tu lugar <em>en la jornada.</em></h2>
-      <p class="lead">Es gratis. Domingo 29 de noviembre a las 16 h en La Plata. Te mandamos la sede por mail y WhatsApp.</p>
-      <ul class="lista">
-        <li>Cupos limitados por sede.</li>
-        <li>Si usaste la calculadora, podés sumar tu resultado y lo revisamos con vos.</li>
-        <li>Podés venir con tu equipo: anotá cuántos son.</li>
-      </ul>
+      <p class="lead">Es gratis. Domingo 29 de noviembre a las 16 h en La Plata.</p>
+      <ol class="pasos" style="grid-template-columns:1fr;margin-top:8px">
+        <li><span><b>Completás el formulario</b>Te lleva un minuto.</span></li>
+        <li><span><b>Te mandamos la sede</b>Por mail y WhatsApp, antes de la jornada.</span></li>
+        <li><span><b>Venís con tu equipo</b>Anotá cuántos son para guardarles lugar.</span></li>
+      </ol>
     </div>
     <div class="panel">
       <form id="f" novalidate>
@@ -267,68 +89,75 @@ footer .muted{color:var(--band-muted)}
           <label for="i-nom">Nombre y apellido<input id="i-nom" name="nombre" autocomplete="name" required></label>
           <label for="i-wa">WhatsApp<input id="i-wa" name="whatsapp" type="tel" inputmode="tel" placeholder="221 555-1234" autocomplete="tel" required></label>
           <label for="i-mail" class="full">Email<input id="i-mail" name="email" type="email" autocomplete="email" required></label>
-          <label for="i-neg">Nombre del salón<input id="i-neg" name="negocio"></label>
           <label for="i-rub">Rubro<select id="i-rub" name="rubro" required>
             <option value="">Elegí una opción</option><option>Peluquería</option><option>Barbería</option><option>Estética / uñas</option><option>Otro</option></select></label>
           <label for="i-rol">Tu rol<select id="i-rol" name="rol" required>
             <option value="">Elegí una opción</option><option>Dueño/a</option><option>Profesional en relación de dependencia</option><option>Independiente / alquilo sillón</option><option>Estoy por abrir</option></select></label>
+          <label for="i-neg">Salón (opcional)<input id="i-neg" name="negocio"></label>
           <label for="i-cant">¿Cuántos vienen?<input id="i-cant" name="asistentes" type="number" min="1" max="10" value="1"></label>
-          <label for="i-charla" class="full">Charla<select id="i-charla" name="charla">
-            <option>Jornada salones de belleza · La Plata</option><option>Me interesa la próxima: gastronomía</option></select></label>
           <label for="i-orig" class="full">¿Cómo nos conociste?<select id="i-orig" name="origen">
             <option>Instagram</option><option>WhatsApp / recomendación</option><option>Proveedor o distribuidora</option><option>Otro</option></select></label>
-          <label class="check full" for="i-calc"><input id="i-calc" type="checkbox" checked>Sumar el resultado de la calculadora a mi inscripción</label>
+          <label class="check full" for="i-calc" id="i-calc-l" hidden><input id="i-calc" type="checkbox" checked><span>Sumar mi resultado de la calculadora (<b id="i-calc-s"></b>) para revisarlo en la jornada</span></label>
           <label class="check full" for="i-ok"><input id="i-ok" type="checkbox" required>Acepto que Somos Igera me contacte por WhatsApp y mail sobre esta jornada.</label>
         </div>
         <p class="err-t" id="f-err" hidden></p>
-        <div class="btns" style="margin-top:16px"><button class="btn" type="submit" id="f-btn">Reservar mi lugar</button></div>
+        <div class="btns" style="margin-top:16px"><button class="btn" type="submit" id="f-btn">Reservar mi lugar gratis</button></div>
         <div class="msg" id="f-msg" hidden></div>
       </form>
     </div>
   </div>
+</div></section>
 
+<section><div class="wrap">
+  <p class="eyebrow">Preguntas frecuentes</p>
+  <h2 style="margin-top:10px">Lo que nos <em>preguntan antes de venir.</em></h2>
+  <div class="faq">
+    <details><summary>¿Tiene algún costo?</summary><p>No. La jornada es gratuita; solo pedimos inscripción porque los cupos son limitados.</p></details>
+    <details><summary>¿Dónde es?</summary><p>En La Plata. Les mandamos la dirección de la sede a los inscriptos por mail y WhatsApp.</p></details>
+    <details><summary>¿Puedo ir con mi equipo?</summary><p>Sí. En el formulario anotá cuántos vienen y les guardamos lugar a todos.</p></details>
+    <details><summary>No soy dueño, trabajo en un salón. ¿Me sirve?</summary><p>Sí. Ver cuánto vale tu hora y cómo conseguir clientes que vuelvan sirve tanto si tenés local como si trabajás por comisión o alquilás sillón.</p></details>
+    <details><summary>¿Tengo que llevar algo?</summary><p>Si querés aprovecharla más, traé una idea de tus gastos del mes. Podés cargarlos antes en la calculadora y sumarlos a tu inscripción.</p></details>
+  </div>
+
+  <div class="banda-calc">
+    <div><h3>¿Querés ver tus números antes?</h3><p>Calculá cuánto te cuesta cada servicio y a cuánto cobrarlo. Es gratis.</p></div>
+    <a class="btn" href="/calculadora">Probar la calculadora</a>
+  </div>
 </div></section>
 
 <footer><div class="wrap">
   <div><img src="/marca/firma-blanco.png" width="640" height="93" alt="Somos Igera"><p class="lema">Negocios coherentes. <em>Decisiones inteligentes.</em></p><p class="muted" style="margin-top:8px">Marketing y gestión · La Plata, Buenos Aires</p></div>
 {{WA_FOOTER}}</div></footer>
 {{WA_BUTTON}}
+<div class="cta-movil" id="cta-movil" hidden><a class="btn" href="#inscripcion">Reservá tu lugar gratis</a></div>
 
 <script>
 const $=id=>document.getElementById(id);
 const WA="{{WA_DISPLAY}}";
-const ars=n=>isFinite(n)?"$"+Math.round(n).toLocaleString("es-AR"):"—";
-const num=id=>Math.max(0,parseFloat($(id).value)||0);
-let last={};
-function calc(){
-  const fijos=num("c-alq")+num("c-serv")+num("c-suel")+num("c-imp")+num("c-otros");
-  const sill=Math.max(1,num("c-sill")), hs=Math.max(1,num("c-hs")), ocup=Math.min(100,Math.max(1,num("c-ocup")))/100;
-  const horasOcup=sill*hs*ocup;
-  const fijoHora=fijos/horasOcup;
-  const min=Math.max(5,num("c-min")), ins=num("c-ins"), com=Math.min(90,num("c-com"))/100, mar=num("c-mar")/100, prec=num("c-prec");
-  const base=fijoHora*min/60+ins;           // costo antes de comisión
-  const costo=com>0? base/(1-com) : base;    // comisión sobre el precio
-  const sug=(base*(1+mar))/(1-com);
-  const gan=prec-ins-prec*com-fijoHora*min/60;
-  const contrib=prec-ins-prec*com;           // lo que aporta cada servicio a cubrir fijos
-  const eq=contrib>0? fijos/contrib : Infinity;
-  const cap=horasOcup*60/min;
-  $("r-nom").textContent=$("c-nom").value||"tu servicio";
-  $("r-costo").textContent=ars(prec>0?base+prec*com:costo);
-  $("r-hora").textContent=ars(fijoHora);
-  $("r-sug").textContent=ars(sug);
-  $("r-gan").textContent=ars(gan);
-  $("r-eq").textContent=isFinite(eq)?Math.ceil(eq).toLocaleString("es-AR"):"No se cubren";
-  $("r-cap").textContent=Math.floor(cap).toLocaleString("es-AR");
-  const v=$("r-ver");
-  if(prec<=0){v.className="verdict";v.textContent="Cargá tu precio actual para compararlo con el sugerido.";}
-  else if(gan<0){v.className="verdict bad";v.textContent="Hoy perdés "+ars(-gan)+" por cada servicio. Cobrando "+ars(sug)+" llegás al margen que buscás.";}
-  else if(prec<sug){v.className="verdict bad";v.textContent="Ganás "+ars(gan)+" por servicio, pero estás "+ars(sug-prec)+" por debajo del precio con tu margen.";}
-  else{v.className="verdict good";v.textContent="Tu precio cubre costos y margen. Ganás "+ars(gan)+" por servicio.";}
-  last={servicio:$("c-nom").value,costo:Math.round(prec>0?base+prec*com:costo),sugerido:Math.round(sug),precio:prec,ganancia:Math.round(gan),ocupacion:Math.round(ocup*100),fijos:Math.round(fijos)};
+const ars=n=>"$"+Math.round(n).toLocaleString("es-AR");
+
+// Cuenta regresiva a la jornada (domingo 29/11/2026, 16 h Argentina)
+(function(){
+  const dias=Math.ceil((new Date("2026-11-29T16:00:00-03:00")-Date.now())/864e5);
+  if(dias<0) return;
+  $("cuenta-n").textContent=dias===0?"Hoy":dias;
+  $("cuenta-t").textContent=dias===0?"es la jornada, 16 h":dias===1?"día para la jornada":"días para la jornada";
+  $("cuenta").hidden=false;
+})();
+
+// Resultado de la calculadora (si la usó en este navegador)
+let calcRes=null;
+try{ calcRes=JSON.parse(sessionStorage.getItem("igera_calc")||"null"); }catch(e){}
+if(calcRes&&calcRes.costo){ $("i-calc-s").textContent=(calcRes.servicio||"servicio")+": costo "+ars(calcRes.costo); $("i-calc-l").hidden=false; }
+
+// Botón fijo en celular: aparece al pasar el inicio y se esconde en el formulario
+const cta=$("cta-movil");
+if("IntersectionObserver" in window){
+  let enHero=true, enForm=false;
+  const upd=()=>{ cta.hidden=enHero||enForm; document.body.classList.toggle("con-cta",!cta.hidden); };
+  new IntersectionObserver(e=>{enHero=e[0].isIntersecting;upd();}).observe($("hero-cta"));
+  new IntersectionObserver(e=>{enForm=e[0].isIntersecting;upd();},{threshold:.15}).observe($("inscripcion"));
 }
-document.querySelectorAll("#calculadora input").forEach(i=>i.addEventListener("input",()=>{$("sampleTag").hidden=true;calc();}));
-calc();
 
 // Inscripción
 const fuente=(new URLSearchParams(location.search).get("o")||"directo").replace(/[^a-z0-9_-]/gi,"").slice(0,20)||"directo";
@@ -336,25 +165,31 @@ function stats(){ fetch("/api/stats").then(r=>r.ok?r.json():null).then(s=>{ if(s
 stats();
 function validar(){
   const req=[["i-nom","tu nombre"],["i-wa","tu WhatsApp"],["i-mail","tu email"],["i-rub","el rubro"],["i-rol","tu rol"]];
-  for(const [id,n] of req){ if(!$(id).value.trim()) return "Falta completar "+n+"."; }
-  if(!/^\S+@\S+\.\S+$/.test($("i-mail").value)) return "Revisá el email: le falta algo (ej: nombre@gmail.com).";
-  if($("i-wa").value.replace(/\D/g,"").length<8) return "Revisá el WhatsApp: escribilo con característica (ej: 221 555-1234).";
-  if(!$("i-ok").checked) return "Marcá la casilla para que podamos contactarte.";
-  return "";
+  for(const [id,n] of req){ if(!$(id).value.trim()) return [id,"Falta completar "+n+"."]; }
+  if(!/^\S+@\S+\.\S+$/.test($("i-mail").value)) return ["i-mail","Revisá el email: le falta algo (ej: nombre@gmail.com)."];
+  if($("i-wa").value.replace(/\D/g,"").length<8) return ["i-wa","Revisá el WhatsApp: escribilo con característica (ej: 221 555-1234)."];
+  if(!$("i-ok").checked) return ["i-ok","Marcá la casilla para que podamos contactarte."];
+  return null;
 }
 $("f").addEventListener("submit",async e=>{
   e.preventDefault();
   const err=validar(), et=$("f-err");
-  if(err){et.textContent=err;et.hidden=false;return;}
+  if(err){et.textContent=err[1];et.hidden=false;$(err[0]).focus();return;}
   et.hidden=true;
   const data={nombre:$("i-nom").value.trim(),whatsapp:$("i-wa").value.trim(),email:$("i-mail").value.trim(),negocio:$("i-neg").value.trim(),
-    rubro:$("i-rub").value,rol:$("i-rol").value,asistentes:parseInt($("i-cant").value)||1,charla:$("i-charla").value,origen:$("i-orig").value,
-    calculadora:$("i-calc").checked?last:null,fuente:fuente};
+    rubro:$("i-rub").value,rol:$("i-rol").value,asistentes:parseInt($("i-cant").value)||1,charla:"Jornada salones de belleza · La Plata",origen:$("i-orig").value,
+    calculadora:(calcRes&&$("i-calc").checked)?calcRes:null,fuente:fuente};
   const m=$("f-msg"), b=$("f-btn"); b.disabled=true; b.textContent="Guardando…";
   let ok=false;
   try{ const r=await fetch("/api/inscripciones",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)}); ok=r.ok; }catch(x){}
-  b.disabled=false; b.textContent="Reservar mi lugar"; m.hidden=false;
-  if(ok){ m.className="msg ok"; m.replaceChildren(); const t=document.createElement("p"); t.textContent="Listo, "+data.nombre.split(" ")[0]+". Tu lugar quedó reservado para el domingo 29/11 a las 16 h. Te mandamos la sede por mail y WhatsApp."; const a=document.createElement("a"); a.href="/jornada.ics"; a.className="btn ghost"; a.style.marginTop="12px"; a.textContent="Agregar a mi calendario"; m.append(t,a); $("f").reset(); stats(); }
+  b.disabled=false; b.textContent="Reservar mi lugar gratis"; m.hidden=false;
+  if(ok){
+    m.className="msg ok"; m.replaceChildren();
+    const t=document.createElement("p"); t.textContent="Listo, "+data.nombre.split(" ")[0]+". Tu lugar quedó reservado para el domingo 29/11 a las 16 h. Te mandamos la sede por mail y WhatsApp.";
+    const a=document.createElement("a"); a.href="/jornada.ics"; a.className="btn ghost"; a.style.marginTop="12px"; a.textContent="Agregar a mi calendario";
+    m.append(t,a); $("f").reset(); $("i-calc-l").hidden=true; try{sessionStorage.removeItem("igera_calc");}catch(x){} calcRes=null; stats();
+    m.scrollIntoView({block:"center"});
+  }
   else{ m.className="msg err"; m.textContent="No pudimos guardar tu inscripción. Probá de nuevo en un minuto"+(WA?" o escribinos por WhatsApp al "+WA+".":"."); }
 });
 </script>
