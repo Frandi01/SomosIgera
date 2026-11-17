@@ -20,6 +20,11 @@ Next.js 14 + Postgres. Landing con inscripción a la jornada y calculadora, cuen
 - `/panel`, `/panel/cursos`, `/panel/usuarios`, `/panel/csv`
 - `/api/inscripciones`, `/api/stats`, `/jornada.ics`, `/og.png`, `/health`
 
+## Deploy y estabilidad
+- Arranque: `node node_modules/next/dist/bin/next start` (sin npm) con `NEXT_MANUAL_SIG_HANDLE=true`: el apagado lo maneja `lib/apagado.js` y sale con 0, así Railway no lo marca como caída.
+- La base tolera cortes: el pool de Postgres escucha `error` y reabre la conexión en el próximo pedido.
+- Sin volumen montado: los deploys se superponen 10 s y no hay corte. Política de reinicio: ON_FAILURE, 10 intentos.
+
 ## Deploy
 Cada push a `main` se despliega solo en Railway (servicio `web`, proyecto `somos-igera`).
 
