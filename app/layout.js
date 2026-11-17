@@ -4,7 +4,7 @@ import { usuarioActual } from "@/lib/auth";
 import { pestanas } from "@/lib/permisos";
 
 export const metadata = {
-  title: { default: "Grupo Igera", template: "%s · Grupo Igera" },
+  title: { default: "Somos Igera", template: "%s · Somos Igera" },
   description: "Marketing y gestión para emprendedores de La Plata. Negocios coherentes. Decisiones inteligentes.",
   icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }], apple: "/apple-touch-icon.png" },
 };
@@ -19,7 +19,7 @@ export default async function Layout({ children }) {
       </head>
       <body>
         <nav className="top"><div className="wrap">
-          <Link className="logo" href="/"><img src="/marca/logo-blanco.png" width={560} height={169} alt="Grupo Igera" /></Link>
+          <Link className="logo" href="/"><img src="/marca/logo-blanco.png" width={560} height={169} alt="Somos Igera" /></Link>
           <div className="links">
             <Link href="/cursos">Cursos</Link>
             {u && pestanas(u.rol).length > 0 && <Link href={pestanas(u.rol)[0][1]}>Panel</Link>}
@@ -38,7 +38,7 @@ export default async function Layout({ children }) {
         </div></nav>
         <main>{children}</main>
         <footer className="foot"><div className="wrap">
-          <img src="/marca/firma-blanco.png" width={640} height={93} alt="Grupo Igera" />
+          <img src="/marca/firma-blanco.png" width={640} height={93} alt="Somos Igera" />
           <span>Negocios coherentes. <em>Decisiones inteligentes.</em></span>
         </div></footer>
       </body>
