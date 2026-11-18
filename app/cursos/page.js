@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { q } from "@/lib/db";
-import { usuarioActual } from "@/lib/auth";
+import { exigir } from "@/lib/auth";
 
 export const metadata = { title: "Cursos", description: "Cursos gratuitos de Somos Igera para emprendedores: costos, administración y marketing." };
 export const dynamic = "force-dynamic";
 
 export default async function Cursos() {
-  const u = await usuarioActual();
+  // Contenido solo para asistentes con cuenta.
+  const u = await exigir("aprender", "view", "/cursos");
   const { rows } = await q(
     `select c.slug,c.titulo,c.descripcion,c.gratuito,count(l.id)::int lecciones,coalesce(sum(l.minutos),0)::int minutos,
             count(p.leccion_id)::int hechas
@@ -18,13 +19,13 @@ export default async function Cursos() {
       <div className="stack" style={{ gap: 8 }}>
         <p className="eyebrow">Formación práctica</p>
         <h1>Cursos</h1>
-        <p className="muted" style={{ maxWidth: "60ch" }}>Contenido corto y aplicable, pensado para dueños y equipos de emprendimientos de La Plata.{!u && " Creá tu cuenta gratis para verlos y guardar tu avance."}</p>
+        <p className="muted" style={{ maxWidth: "60ch" }}>Contenido corto y aplicable, pensado para dueños y equipos de emprendimientos de La Plata.</p>
       </div>
       {rows.length === 0 ? (
         <div className="panel stack">
           <h3>Muy pronto</h3>
           <p className="muted">El primer curso llega después de la jornada del 29/11: la grabación completa, dividida en lecciones cortas.</p>
-          <div><Link className="btn" href="/#inscripcion">Anotate a la jornada</Link></div>
+          
         </div>
       ) : (
         <div className="cards">{rows.map(c => (

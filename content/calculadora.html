@@ -6,6 +6,7 @@
 <meta property="og:title" content="Calculadora de costos para salones">
 <meta property="og:description" content="Cuánto te cuesta de verdad cada servicio, a cuánto cobrarlo y cuántos necesitás al mes para cubrir gastos.">
 <meta property="og:url" content="{{ORIGIN}}/calculadora">
+<meta name="robots" content="noindex">
 <meta property="og:image" content="{{ORIGIN}}/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -21,11 +22,11 @@
   <svg class="marca-agua" viewBox="0 0 100 100" aria-hidden="true"><polygon points="0,20 75,0 100,20 25,40"/><polygon points="0,50 75,30 100,50 25,70"/><polygon points="0,80 75,60 100,80 25,100"/></svg>
   <nav><div class="wrap">
     <a class="logo" href="/"><img src="/marca/logo-blanco.png" width="560" height="169" alt="Somos Igera"></a>
-    <div class="links"><a href="/#jornada">Jornada</a><a href="/calculadora" aria-current="page">Calculadora</a><a href="/cursos">Cursos</a><a href="/ingresar">Ingresar</a><a href="/#inscripcion" class="nav-cta">Inscribirme</a></div>
+    <div class="links"><a href="/">La jornada</a><a href="/cursos">Cursos</a><a href="/cuenta">Mi cuenta</a></div>
   </div></nav>
   <header class="hero"><div class="wrap" style="grid-template-columns:1fr">
     <div class="hero-copy">
-      <p class="eyebrow">Herramienta gratuita</p>
+      <p class="eyebrow">Para asistentes</p>
       <h1>Calculadora de costos <em>para salones.</em></h1>
       <p class="lead">Cargá tus números del mes: cuánto te cuesta cada servicio, a cuánto cobrarlo y cuántos servicios necesitás para cubrir gastos.</p>
     </div>
@@ -69,8 +70,8 @@
         <div class="res-item"><span>Servicios que hoy hacés al mes (estimado)</span><b id="r-cap">0</b></div>
       </div>
       <div class="verdict" id="r-ver"></div>
-      <p class="note">Los gastos fijos se reparten solo entre las horas en que hay clientes. Por eso la ocupación pesa tanto en el costo. En la jornada del domingo 29/11 vemos cómo subirla.</p>
-      <div class="btns"><a class="btn" href="/#inscripcion" id="c-cta">Revisar mis números en la jornada gratis</a></div>
+      <p class="note">Los gastos fijos se reparten solo entre las horas en que hay clientes. Por eso la ocupación pesa tanto en el costo.</p>
+      <div class="btns"><a class="btn" href="/cursos">Ver los cursos</a></div>
     </div>
   </div>
 </div></section>
@@ -84,7 +85,6 @@
 const $=id=>document.getElementById(id);
 const ars=n=>isFinite(n)?"$"+Math.round(n).toLocaleString("es-AR"):"—";
 const num=id=>Math.max(0,parseFloat($(id).value)||0);
-let tocada=false;
 function calc(){
   const fijos=num("c-alq")+num("c-serv")+num("c-suel")+num("c-imp")+num("c-otros");
   const sill=Math.max(1,num("c-sill")), hs=Math.max(1,num("c-hs")), ocup=Math.min(100,Math.max(1,num("c-ocup")))/100;
@@ -110,13 +110,8 @@ function calc(){
   else if(gan<0){v.className="verdict bad";v.textContent="Hoy perdés "+ars(-gan)+" por cada servicio. Cobrando "+ars(sug)+" llegás al margen que buscás.";}
   else if(prec<sug){v.className="verdict bad";v.textContent="Ganás "+ars(gan)+" por servicio, pero estás "+ars(sug-prec)+" por debajo del precio con tu margen.";}
   else{v.className="verdict good";v.textContent="Tu precio cubre costos y margen. Ganás "+ars(gan)+" por servicio.";}
-  // Solo se guarda (en este navegador) si la persona cargó sus propios números, para sumarlo a la inscripción.
-  if(tocada){ try{ sessionStorage.setItem("igera_calc",JSON.stringify({servicio:$("c-nom").value,costo:Math.round(prec>0?base+prec*com:costo),sugerido:Math.round(sug),precio:prec,ganancia:Math.round(gan),ocupacion:Math.round(ocup*100),fijos:Math.round(fijos)})); }catch(e){} }
 }
-document.querySelectorAll("#calculadora input").forEach(i=>i.addEventListener("input",()=>{tocada=true;$("sampleTag").hidden=true;calc();}));
+document.querySelectorAll("#calculadora input").forEach(i=>i.addEventListener("input",()=>{$("sampleTag").hidden=true;calc();}));
 calc();
-// Conserva el origen de campaña (?o=) al pasar a la inscripción
-const o=new URLSearchParams(location.search).get("o");
-if(o) $("c-cta").href="/?o="+encodeURIComponent(o)+"#inscripcion";
 </script>
 </body></html>

@@ -29,7 +29,8 @@ async function marcar(fd) {
 
 export default async function Curso(props) {
   const params = await props.params, searchParams = await props.searchParams;
-  const u = await usuarioActual();
+  // Contenido solo para asistentes con cuenta.
+  const u = await exigir("aprender", "view", `/cursos/${encodeURIComponent(params.slug)}`);
   const c = await getCurso(params.slug, u);
   if (!c) notFound();
   const { rows: ls } = await q(

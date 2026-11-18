@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 
 // Primera capa de seguridad (como el middleware de DAIA):
 // 1. Fuerza HTTPS en producción (Railway termina TLS y avisa el protocolo en x-forwarded-proto).
-// 2. Sin cookie de sesión no se entra al panel ni a la cuenta. El control real (sesión vigente,
+// 2. Sin cookie de sesión no se entra al panel, la cuenta ni al contenido para asistentes. El control real (sesión vigente,
 //    cuenta activa y permiso por sección) lo hace cada página contra la base.
-const PRIVADAS = ["/panel", "/cuenta"];
+const PRIVADAS = ["/panel", "/cuenta", "/cursos", "/calculadora"];
 
 export function proxy(req) {
   if (process.env.NODE_ENV === "production" && req.headers.get("x-forwarded-proto") === "http") {

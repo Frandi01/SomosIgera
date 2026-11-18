@@ -32,9 +32,9 @@ export default async function Ingresar(props) {
         <input type="hidden" name="volver" value={volver} />
         <label htmlFor="i-email">Email<input id="i-email" name="email" type="email" autoComplete="email" required /></label>
         <label htmlFor="i-pass">Contraseña<input id="i-pass" name="password" type="password" autoComplete="current-password" required /></label>
-        <button className="btn" type="submit">Ingresar</button>
+        <button className="button" type="submit">Ingresar</button>
       </form>
-      <p className="muted">¿No tenés cuenta? <Link href={`/registro?volver=${encodeURIComponent(volver)}`}>Creala gratis</Link></p>
+      <p className="muted">¿Fuiste a la jornada y todavía no tenés cuenta? <Link href={`/registro?volver=${encodeURIComponent(volver)}`}>Creala con tu código de asistente</Link></p>
       <p className="muted">¿Te olvidaste la contraseña? {wa ? <a href={`https://wa.me/${wa.id}?text=${encodeURIComponent("Hola Igera, me olvidé la contraseña de mi cuenta")}`} target="_blank" rel="noopener">Escribinos por WhatsApp</a> : "Escribinos por WhatsApp"} y te mandamos un link para cambiarla.</p>
     </div>
   );

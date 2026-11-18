@@ -46,6 +46,11 @@ export default async function Cuenta(props) {
         <h1>Hola, {u.nombre.split(" ")[0]}</h1>
         <p className="muted">{u.email} · <span className="pill">{ROL[u.rol]}</span></p>
       </div>
+      <h2>Tu contenido</h2>
+      <div className="cards">
+        <a href="/calculadora" className="panel card"><span className="eyebrow">Herramienta</span><h3>Calculadora de costos</h3><p className="muted">Cuánto te cuesta cada servicio, a cuánto cobrarlo y cuántos necesitás para cubrir el mes.</p></a>
+        <Link href="/cursos" className="panel card"><span className="eyebrow">Formación</span><h3>Cursos</h3><p className="muted">La grabación de la jornada y contenido práctico de costos, gestión y marketing.</p></Link>
+      </div>
       <h2>Mis cursos</h2>
       {rows.length === 0 ? (
         <div className="panel stack"><p>Todavía no empezaste ningún curso.</p><div><Link className="btn" href="/cursos">Ver cursos</Link></div></div>

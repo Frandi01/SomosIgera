@@ -1,7 +1,6 @@
 (() => {
 const $=id=>document.getElementById(id);
 const WA=document.body.dataset.whatsapp;
-const ars=n=>"$"+Math.round(n).toLocaleString("es-AR");
 const ANIM=!matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Cuenta regresiva a la jornada (domingo 29/11/2026, 16 h Argentina), con conteo animado
@@ -16,11 +15,6 @@ const ANIM=!matchMedia("(prefers-reduced-motion: reduce)").matches;
   const t0=performance.now(), dur=900;
   (function paso(t){ const k=Math.min(1,(t-t0)/dur); n.textContent=Math.round(dias*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(paso); })(t0);
 })();
-
-// Resultado de la calculadora (si la usó en este navegador)
-let calcRes=null;
-try{ calcRes=JSON.parse(sessionStorage.getItem("igera_calc")||"null"); }catch(e){}
-if(calcRes&&calcRes.costo){ $("i-calc-s").textContent=(calcRes.servicio||"servicio")+": costo "+ars(calcRes.costo); $("i-calc-l").hidden=false; }
 
 // Inscripción
 const fuente=(new URLSearchParams(location.search).get("o")||"directo").replace(/[^a-z0-9_-]/gi,"").slice(0,20)||"directo";
@@ -43,7 +37,7 @@ $("f").addEventListener("submit",async e=>{
   et.hidden=true;
   const data={nombre:$("i-nom").value.trim(),whatsapp:$("i-wa").value.trim(),email:$("i-mail").value.trim(),negocio:$("i-neg").value.trim(),
     rubro:$("i-rub").value,rol:$("i-rol").value,asistentes:parseInt($("i-cant").value)||1,charla:"Jornada salones de belleza · La Plata",origen:$("i-orig").value,
-    calculadora:(calcRes&&$("i-calc").checked)?calcRes:null,fuente:fuente};
+    fuente:fuente};
   const m=$("f-msg"), b=$("f-btn"); b.disabled=true; b.textContent="Guardando…";
   let ok=false;
   try{ const r=await fetch("/api/inscripciones",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)}); ok=r.ok; }catch(x){}
@@ -54,7 +48,7 @@ $("f").addEventListener("submit",async e=>{
     const t=document.createElement("p"); t.textContent="Listo, "+data.nombre.split(" ")[0]+". Tu lugar quedó reservado para el domingo 29/11 a las 16 h. Te mandamos la sede por mail y WhatsApp.";
     const a=document.createElement("a"); a.href="/jornada.ics"; a.className="button button-calendar"; a.style.marginTop="12px"; a.textContent="Agregar a mi calendario";
     const d=document.createElement("div"); d.append(t,a); m.append(d);
-    $("f").reset(); $("i-calc-l").hidden=true; try{sessionStorage.removeItem("igera_calc");}catch(x){} calcRes=null; stats();
+    $("f").reset(); stats();
     m.scrollIntoView({block:"center"});
   }
   else{ m.className="msg err"; m.textContent="No pudimos guardar tu inscripción. Probá de nuevo en un minuto"+(WA?" o escribinos por WhatsApp al "+WA+".":"."); }
