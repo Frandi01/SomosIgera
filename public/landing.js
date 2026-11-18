@@ -21,18 +21,38 @@
   const stickyCta = document.querySelector('.mobile-cta');
   const menu = document.querySelector('.mobile-nav');
   const navLinks = [...document.querySelectorAll('.desktop-nav a, .mobile-nav a, .header-actions > a')];
-  const navSections = [...document.querySelectorAll('#jornada, #temario, #marketing, #programa, #inscripcion, #preguntas')];
+  const navSections = [...document.querySelectorAll('#jornada, #marketing, #programa, #temario, #inscripcion, #preguntas')];
   const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
   const eased = (value) => value * value * (3 - 2 * value);
   const set = (element, property, value) => element.style.setProperty(property, String(value));
+  const timelineRevealMs = 330;
+  const timelineHoldMs = timelineRevealMs + 210;
+  const timelineTravelMs = 270;
+  const timelineStepMs = timelineHoldMs + timelineTravelMs;
   let request = 0;
   let lastFrameKey = '';
   let lastTopic = -1;
   let lastNav = '';
   let lastSceneDone = false;
+  let lastRenderedAt;
+  let timelineElapsed = 0;
 
-  function render() {
+  function timelineTarget(markers, focus) {
+    const index = markers.findLastIndex(marker => marker <= focus);
+    if (index < 0) return 0;
+
+    const endOfHold = index * timelineStepMs + timelineHoldMs;
+    const next = markers[index + 1];
+    if (next === undefined) return endOfHold;
+
+    const covered = clamp((focus - markers[index]) / (next - markers[index]));
+    return endOfHold + covered * timelineTravelMs;
+  }
+
+  function render(timestamp) {
     request = 0;
+    const frameMs = Math.min(timestamp - (lastRenderedAt ?? timestamp), 64);
+    lastRenderedAt = timestamp;
     const height = window.innerHeight;
     const scroll = window.scrollY;
     const maxScroll = root.scrollHeight - height;
@@ -58,11 +78,21 @@
     const inPinnedScene = pinned && trackRect.top <= headerHeight + 1 && trackRect.bottom >= sceneHeight + headerHeight - 1;
     const heroProgress = clamp(scroll / Math.max(1, heroRect.height));
     const marketingProgress = eased(clamp((height * 0.9 - marketingRect.top) / (height * 0.48)));
-    const timelineFocus = height * 0.72;
     const firstMarker = markerCenters[0];
     const lastMarker = markerCenters.at(-1);
     const timelineLength = Math.max(1, lastMarker - firstMarker);
-    const lineProgress = clamp((timelineFocus - firstMarker) / timelineLength);
+    const target = timelineTarget(markerCenters, height * 0.72 + 14);
+    const timelineVisible = timelineRect.top < height && timelineRect.bottom > headerHeight;
+    if (reduced) timelineElapsed = target;
+    else if (!timelineVisible) timelineElapsed = Math.min(timelineElapsed, target);
+    else if (timelineElapsed > target) timelineElapsed = Math.max(target, timelineElapsed - frameMs * 3);
+    else timelineElapsed = Math.min(target, timelineElapsed + frameMs);
+
+    const stepIndex = Math.floor(timelineElapsed / timelineStepMs);
+    const stepStart = markerCenters[stepIndex];
+    const stepEnd = markerCenters[stepIndex + 1] ?? stepStart;
+    const transit = eased(clamp((timelineElapsed - stepIndex * timelineStepMs - timelineHoldMs) / timelineTravelMs));
+    const lineProgress = clamp((stepStart + (stepEnd - stepStart) * transit - firstMarker) / timelineLength);
     const beamOpacity = clamp((height - firstMarker) / 84) * clamp((lastMarker - height * 0.22) / 90);
     const ticketProgress = eased(clamp((height * 0.96 - registerRect.top) / (height * 0.59)));
     const isMobileCtaVisible = narrow.matches && !inPinnedScene && heroRect.bottom < height * 0.32 && registerRect.top > height * 0.68;
@@ -78,9 +108,10 @@
     set(timeline, '--beam-distance', `${lineProgress * timelineLength}px`);
     set(timeline, '--beam-opacity', reduced ? 0 : beamOpacity);
     milestones.forEach((step, index) => {
-      const distance = timelineFocus - markerCenters[index];
-      set(step, '--step-reveal', reduced ? 1 : eased(clamp((distance + 14) / 64)));
-      set(step, '--step-light', reduced ? 0 : eased(clamp(1 - Math.abs(distance) / 53)));
+      const stepElapsed = timelineElapsed - index * timelineStepMs;
+      const glow = eased(clamp(stepElapsed / 110)) * (1 - eased(clamp((stepElapsed - 400) / 210)));
+      set(step, '--step-reveal', reduced ? 1 : eased(clamp(stepElapsed / timelineRevealMs)));
+      set(step, '--step-light', reduced ? 0 : glow);
     });
     set(program, '--program-shift', reduced ? '0px' : `${(lineProgress - 0.5) * 70}px`);
     set(registration, '--register-shift', reduced ? '0px' : `${(1 - ticketProgress) * 42}px`);
@@ -98,7 +129,7 @@
     segments.forEach((segment, index) => set(segment, '--segment', clamp(progress - index)));
     const sceneDone = progress === 3;
     if (lastSceneDone !== sceneDone) {
-      sceneHint.nodeValue = sceneDone ? 'Seguí para explorar marketing ' : 'Seguí bajando para avanzar ';
+      sceneHint.nodeValue = sceneDone ? 'Seguí para reservar tu lugar ' : 'Seguí bajando para avanzar ';
       lastSceneDone = sceneDone;
     }
 
@@ -120,6 +151,7 @@
       });
       lastNav = navId;
     }
+    if (!reduced && timelineVisible && timelineElapsed !== target) schedule();
   }
 
   function schedule() {
