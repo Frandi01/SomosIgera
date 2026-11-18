@@ -76,6 +76,7 @@
     <li><span class="paso-n">2</span><div><b>Domingo 29/11, 16 h</b><p>Costos, administración y marketing con ejemplos de salones. Sin teoría de más.</p></div></li>
     <li><span class="paso-n">3</span><div><b>Te vas con un plan</b><p>Tu precio sugerido y qué cambiar el lunes siguiente.</p></div></li>
   </ol>
+  <p class="quienes rv" style="--d:3"><b>La dan especialistas en costos, marketing y gestión de negocios</b> que trabajan con emprendimientos de La Plata.</p>
   <div class="para-quien rv" style="--d:3">
     <span class="pq-t">Es para vos si sos</span>
     <span class="chip">Dueño/a de salón</span><span class="chip">Estilista o barbero</span><span class="chip">Por abrir tu local</span>
@@ -181,7 +182,7 @@ if("IntersectionObserver" in window){
 
 // Inscripción
 const fuente=(new URLSearchParams(location.search).get("o")||"directo").replace(/[^a-z0-9_-]/gi,"").slice(0,20)||"directo";
-function stats(){ fetch("/api/stats").then(r=>r.ok?r.json():null).then(s=>{ if(s&&s.inscriptos>=10){ $("social-n").textContent=s.inscriptos+" ya se anotaron"; $("social").hidden=false; } }).catch(()=>{}); }
+function stats(){ fetch("/api/stats").then(r=>r.ok?r.json():null).then(s=>{ if(s&&s.inscriptos>=5){ $("social-n").textContent=s.inscriptos+" ya se anotaron"; $("social").hidden=false; } }).catch(()=>{}); }
 stats();
 function validar(){
   const req=[["i-nom","tu nombre"],["i-wa","tu WhatsApp"],["i-mail","tu email"],["i-rub","el rubro"],["i-rol","tu rol"]];

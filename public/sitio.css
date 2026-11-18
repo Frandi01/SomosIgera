@@ -229,7 +229,9 @@ html{scroll-behavior:smooth}
 .paso-n{width:46px;height:46px;display:grid;place-items:center;background:var(--band);color:var(--band-accent);font-weight:800;font-stretch:75%;font-size:1.4rem;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
 .linea b{display:block;font-size:1.15rem;margin-bottom:4px}
 .linea p{color:var(--muted);max-width:34ch}
-.para-quien{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:44px;padding-top:24px;border-top:1px solid var(--line)}
+.quienes{margin-top:40px;padding:16px 18px;background:var(--soft);border-left:4px solid var(--accent);border-radius:2px;color:var(--muted);max-width:780px}
+.quienes b{color:var(--ink)}
+.para-quien{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
 .pq-t{font-weight:700;margin-right:6px}
 .chip{background:var(--soft);color:var(--ink);border-radius:999px;padding:7px 14px;font-size:.95rem;font-weight:600}
 
