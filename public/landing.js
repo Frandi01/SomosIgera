@@ -13,6 +13,8 @@
   const sceneHint = document.querySelector('.scene-hint').firstChild;
   const marketing = document.querySelector('.marketing-panel');
   const timeline = document.querySelector('.timeline');
+  const milestones = [...timeline.querySelectorAll('li')];
+  const markers = milestones.map(step => step.querySelector('.timeline-marker'));
   const program = document.querySelector('.program-panel');
   const registration = document.querySelector('.registration');
   const ticket = document.querySelector('.ticket');
@@ -42,6 +44,10 @@
     const headerHeight = header.offsetHeight;
     const pinned = solution.classList.contains('is-pinned');
     const timelineRect = timeline.getBoundingClientRect();
+    const markerCenters = markers.map(marker => {
+      const {top, height} = marker.getBoundingClientRect();
+      return top + height / 2;
+    });
     const registerRect = registration.getBoundingClientRect();
     const frameRect = visual.getBoundingClientRect();
     const currentSection = navSections.filter((section) => section.getBoundingClientRect().top < height * 0.43).at(-1);
@@ -52,7 +58,12 @@
     const inPinnedScene = pinned && trackRect.top <= headerHeight + 1 && trackRect.bottom >= sceneHeight + headerHeight - 1;
     const heroProgress = clamp(scroll / Math.max(1, heroRect.height));
     const marketingProgress = eased(clamp((height * 0.9 - marketingRect.top) / (height * 0.48)));
-    const lineProgress = clamp((height * 0.86 - timelineRect.top) / Math.max(1, timelineRect.height));
+    const timelineFocus = height * 0.72;
+    const firstMarker = markerCenters[0];
+    const lastMarker = markerCenters.at(-1);
+    const timelineLength = Math.max(1, lastMarker - firstMarker);
+    const lineProgress = clamp((timelineFocus - firstMarker) / timelineLength);
+    const beamOpacity = clamp((height - firstMarker) / 84) * clamp((lastMarker - height * 0.22) / 90);
     const ticketProgress = eased(clamp((height * 0.96 - registerRect.top) / (height * 0.59)));
     const isMobileCtaVisible = narrow.matches && !inPinnedScene && heroRect.bottom < height * 0.32 && registerRect.top > height * 0.68;
 
@@ -61,7 +72,16 @@
     set(hero, '--photo-scale', reduced ? 1 : 1.05 + heroProgress * 0.1);
     set(hero, '--ribbon-shift', reduced ? '0px' : `${-heroProgress * 40}px`);
     set(marketing, '--marketing-progress', reduced ? 1 : marketingProgress);
-    set(timeline, '--line-progress', reduced ? 1 : lineProgress);
+    set(timeline, '--timeline-start', `${firstMarker - timelineRect.top}px`);
+    set(timeline, '--timeline-length', `${timelineLength}px`);
+    set(timeline, '--line-progress', reduced ? '100%' : `${lineProgress * 100}%`);
+    set(timeline, '--beam-distance', `${lineProgress * timelineLength}px`);
+    set(timeline, '--beam-opacity', reduced ? 0 : beamOpacity);
+    milestones.forEach((step, index) => {
+      const distance = timelineFocus - markerCenters[index];
+      set(step, '--step-reveal', reduced ? 1 : eased(clamp((distance + 14) / 64)));
+      set(step, '--step-light', reduced ? 0 : eased(clamp(1 - Math.abs(distance) / 53)));
+    });
     set(program, '--program-shift', reduced ? '0px' : `${(lineProgress - 0.5) * 70}px`);
     set(registration, '--register-shift', reduced ? '0px' : `${(1 - ticketProgress) * 42}px`);
     set(registration, '--pass-mark-shift', reduced ? '0px' : `${(1 - ticketProgress) * -26}px`);
