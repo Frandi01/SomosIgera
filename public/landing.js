@@ -48,6 +48,7 @@
     const travel = Math.max(1, trackRect.height - sceneHeight);
     const scrollThroughScene = clamp((headerHeight - trackRect.top) / travel);
     const progress = pinned ? clamp((scrollThroughScene - .015) / .87) * 3 : 3;
+    const drawerOpen = eased(clamp((progress - .48) / .48));
     const inPinnedScene = pinned && trackRect.top <= headerHeight + 1 && trackRect.bottom >= sceneHeight + headerHeight - 1;
     const heroProgress = clamp(scroll / Math.max(1, heroRect.height));
     const marketingProgress = eased(clamp((height * 0.9 - marketingRect.top) / (height * 0.48)));
@@ -67,14 +68,11 @@
     set(ticket, '--ticket-shift', reduced ? '0px' : `${(1 - ticketProgress) * 23}px`);
     set(ticket, '--ticket-tilt', reduced ? '0deg' : `${(1 - ticketProgress) * -8}deg`);
     set(ticket, '--ticket-depth', reduced ? '0deg' : `${(1 - ticketProgress) * -15}deg`);
+    set(scene, '--drawer-row', `${drawerOpen}fr`);
 
     const activeTopic = pinned ? clamp(Math.round(progress) - 1, 0, topics.length - 1) : -1;
     if (activeTopic !== lastTopic) {
-      topics.forEach((topic, index) => {
-        const current = activeTopic === index;
-        topic.classList.toggle('is-current', current);
-        set(topic, '--topic-focus', Number(current));
-      });
+      topics.forEach((topic, index) => topic.classList.toggle('is-current', activeTopic === index));
       lastTopic = activeTopic;
     }
     segments.forEach((segment, index) => set(segment, '--segment', clamp(progress - index)));
@@ -110,9 +108,14 @@
 
   function refreshLayout() {
     root.classList.toggle('motion-ok', !motion.matches);
-    solution.classList.toggle('is-pinned', !motion.matches && window.innerHeight >= 570);
-    if (solution.classList.contains('is-pinned') && scene.offsetHeight > window.innerHeight - header.offsetHeight + 3) {
-      solution.classList.remove('is-pinned');
+    const canPin = !motion.matches && window.innerHeight >= 570;
+    solution.classList.toggle('is-pinned', canPin);
+    if (canPin) {
+      const currentDrawerRow = scene.style.getPropertyValue('--drawer-row');
+      set(scene, '--drawer-row', '1fr');
+      const fits = scene.offsetHeight <= window.innerHeight - header.offsetHeight + 3;
+      set(scene, '--drawer-row', currentDrawerRow);
+      if (!fits) solution.classList.remove('is-pinned');
     }
     schedule();
   }
