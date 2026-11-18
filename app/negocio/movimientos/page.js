@@ -34,7 +34,7 @@ export default async function Movimientos(props) {
   const agrupar = (a, k) => Object.entries(a.reduce((m, r) => (m[r[k] || "—"] = (m[r[k] || "—"] || 0) + Number(r.monto), m), {})).sort((x, y) => y[1] - x[1]);
   return (
     <div className="wrap section stack">
-      <NegocioTabs actual="/negocio/movimientos" nombre={n.nombre} plantilla={p.nombre} />
+      <NegocioTabs nombre={n.nombre} titulo="Movimientos" />
       {sp.error && <p className="msg err" role="alert">No se pudo cargar: revisá el monto.</p>}
       <div className="row" style={{ justifyContent: "space-between" }}>
         <div className="row"><Link className="btn ghost small" href={`?mes=${mover(mes, -1)}`} aria-label="Mes anterior">←</Link><h2 style={{ textTransform: "capitalize" }}>{nombreMes(mes)}</h2>{mes < hoy.slice(0, 7) && <Link className="btn ghost small" href={`?mes=${mover(mes, 1)}`} aria-label="Mes siguiente">→</Link>}</div>

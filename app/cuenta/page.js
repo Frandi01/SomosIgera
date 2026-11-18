@@ -39,11 +39,7 @@ export default async function Cuenta(props) {
         <h1>Hola, {u.nombre.split(" ")[0]}</h1>
         <p className="muted">{u.email} · <span className="pill">{ROL[u.rol]}</span></p>
       </div>
-      <h2>Tu contenido</h2>
-      <div className="cards">
-        <a href="/negocio" className="panel card"><span className="eyebrow">Todos los días</span><h3>Mi negocio</h3><p className="muted">Cargá ventas y gastos, mirá tu caja y si cubrís el mes, y revisá tus costos y precios.</p></a>
-        <a href="/calculadora" className="panel card"><span className="eyebrow">Herramienta</span><h3>Calculadora de costos</h3><p className="muted">Cuánto te cuesta cada servicio, a cuánto cobrarlo y cuántos necesitás para cubrir el mes.</p></a>
-      </div>
+      <p className="muted">Los datos de tu negocio (rubro, medios de pago, qué querés resolver) se cambian en <a href="/negocio/empezar">Datos del negocio</a>.</p>
       <h2>Seguridad</h2>
       <div className="panel stack">
         <form action={cambiarClave} className="grid2" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))" }}>

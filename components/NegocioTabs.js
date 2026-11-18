@@ -1,15 +1,10 @@
-import Link from "next/link";
-const TABS = [["/negocio", "Hoy"], ["/negocio/costos", "Costos y precios"], ["/negocio/movimientos", "Movimientos"], ["/calculadora", "Calculadora"]];
-export default function NegocioTabs({ actual, nombre, plantilla }) {
+// Encabezado de cada sección del negocio. La navegación entre secciones está en el encabezado del
+// sitio (arriba en compu, barra inferior en el celular): acá va solo el título.
+export default function NegocioTabs({ nombre, titulo }) {
   return (
-    <div className="stack" style={{ gap: 10 }}>
-      <div className="row" style={{ justifyContent: "space-between", alignItems: "baseline" }}>
-        <h1 className="negocio-titulo">{nombre || "Mi negocio"}</h1>
-        <Link className="muted" href="/negocio/empezar" style={{ fontSize: ".85rem" }}>{plantilla} · cambiar</Link>
-      </div>
-      <nav className="tabs negocio-tabs" aria-label="Secciones de mi negocio">{TABS.map(([h, t]) => h.startsWith("/negocio")
-        ? <Link key={h} href={h} aria-current={actual === h ? "page" : undefined}>{t}</Link>
-        : <a key={h} href={h}>{t}</a>)}</nav>
+    <div className="negocio-cabecera">
+      <p className="eyebrow">{nombre || "Mi negocio"}</p>
+      <h1 className="negocio-titulo">{titulo}</h1>
     </div>
   );
 }

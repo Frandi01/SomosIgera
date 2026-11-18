@@ -74,7 +74,7 @@ export default async function Costos(props) {
   const pct = x => `${Math.round(x * 100)}%`;
   return (
     <div className="wrap section stack">
-      <NegocioTabs actual="/negocio/costos" nombre={n.nombre} plantilla={p.nombre} />
+      <NegocioTabs nombre={n.nombre} titulo="Costos y precios" />
       {sp.bienvenida && <p className="msg ok" role="status">Tu panel está listo. Paso 2 de 2: cargá tus gastos fijos del mes y revisá los {p.items} de ejemplo (cambialos por los tuyos). Después, en Hoy, cargás cada venta.</p>}
       {sp.error && <p className="msg err" role="alert">{ERR[sp.error]}</p>}
       {sp.ok === "capacidad" && <p className="msg ok" role="status">Guardado.</p>}

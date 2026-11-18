@@ -1,10 +1,3 @@
-// Calculadora de costos: contenido solo para asistentes con cuenta.
-import { pagina } from "@/lib/estatica";
-import { usuarioActual } from "@/lib/auth";
-import { puede } from "@/lib/permisos";
+// La calculadora ahora vive dentro de "Mi negocio" y arranca con los datos de cada uno.
 export const dynamic = "force-dynamic";
-export async function GET(req) {
-  const u = await usuarioActual();
-  if (!u || !puede(u.rol, "aprender")) return new Response(null, { status: 303, headers: { Location: "/ingresar?volver=%2Fcalculadora" } });
-  return pagina("calculadora.html", req);
-}
+export const GET = () => new Response(null, { status: 308, headers: { Location: "/negocio/calculadora" } });

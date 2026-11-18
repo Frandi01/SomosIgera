@@ -59,7 +59,7 @@ export default async function Hoy() {
 
   return (
     <div className="wrap section stack">
-      <NegocioTabs actual="/negocio" nombre={n.nombre} plantilla={p.nombre} />
+      <NegocioTabs nombre={n.nombre} titulo="Hoy" />
       <div className="negocio-grid">
         <div className="stack">
           <CargaRapida items={items.map(i => ({ id: i.id, nombre: i.nombre, precio: Number(i.precio) }))} medios={n.medios} categorias={p.categoriasGasto} palabraItem={p.item} />
