@@ -139,3 +139,8 @@ fieldset.escala legend{font-size:.87rem;font-weight:750;padding:0;margin-bottom:
 .qr-proyectar .muted{font-size:1.15rem;max-width:40ch}
 .qr-proyectar-codigo{background:#fff;border-radius:23px;padding:16px;box-shadow:0 16px 45px #673c491f;line-height:0}
 @media (max-width:760px){.qr-proyectar{grid-template-columns:1fr}}
+/* Confirmación en dos pasos para acciones que no se pueden deshacer */
+.confirmar summary{list-style:none}
+.confirmar summary::-webkit-details-marker{display:none}
+.confirmar[open] summary{display:none}
+.confirmar-caja{display:flex;gap:8px;align-items:center;white-space:normal;min-width:240px;font-size:.85rem;color:var(--warn)}

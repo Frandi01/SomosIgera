@@ -1,7 +1,5 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { exigir, cerrarOtras, cambiarMiPassword, limitar } from "@/lib/auth";
-import { q } from "@/lib/db";
 import { passwordValida } from "@/lib/util";
 import Aviso from "@/components/Aviso";
 
@@ -34,11 +32,6 @@ const OK = {
 export default async function Cuenta(props) {
   const searchParams = await props.searchParams;
   const u = await exigir("cuenta", "view", "/cuenta");
-  const { rows } = await q(
-    `select c.slug,c.titulo,count(l.id)::int total,count(p.leccion_id)::int hechas
-     from cursos c join lecciones l on l.curso_id=c.id
-     left join progreso p on p.leccion_id=l.id and p.usuario_id=$1
-     where c.publicado group by c.id having count(p.leccion_id)>0 order by c.titulo`, [u.id]);
   return (
     <div className="wrap section stack">
       <Aviso error={searchParams.error} ok={OK[searchParams.ok]} />
@@ -49,20 +42,7 @@ export default async function Cuenta(props) {
       <h2>Tu contenido</h2>
       <div className="cards">
         <a href="/calculadora" className="panel card"><span className="eyebrow">Herramienta</span><h3>Calculadora de costos</h3><p className="muted">Cuánto te cuesta cada servicio, a cuánto cobrarlo y cuántos necesitás para cubrir el mes.</p></a>
-        <Link href="/cursos" className="panel card"><span className="eyebrow">Formación</span><h3>Cursos</h3><p className="muted">La grabación de la jornada y contenido práctico de costos, gestión y marketing.</p></Link>
       </div>
-      <h2>Mis cursos</h2>
-      {rows.length === 0 ? (
-        <div className="panel stack"><p>Todavía no empezaste ningún curso.</p><div><Link className="btn" href="/cursos">Ver cursos</Link></div></div>
-      ) : (
-        <div className="cards">{rows.map(c => (
-          <Link key={c.slug} href={`/cursos/${c.slug}`} className="panel card">
-            <h3>{c.titulo}</h3>
-            <div className="bar"><span style={{ width: `${Math.round(100 * c.hechas / c.total)}%` }} /></div>
-            <p className="muted">{c.hechas} de {c.total} lecciones</p>
-          </Link>))}
-        </div>
-      )}
       <h2>Seguridad</h2>
       <div className="panel stack">
         <form action={cambiarClave} className="grid2" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))" }}>

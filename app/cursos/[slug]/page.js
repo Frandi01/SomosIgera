@@ -29,8 +29,8 @@ async function marcar(fd) {
 
 export default async function Curso(props) {
   const params = await props.params, searchParams = await props.searchParams;
-  // Contenido solo para asistentes con cuenta.
-  const u = await exigir("aprender", "view", `/cursos/${encodeURIComponent(params.slug)}`);
+  // Por ahora los cursos no se muestran a los alumnos: solo equipo y admin, que los preparan.
+  const u = await exigir("cursos", "view", `/cursos/${encodeURIComponent(params.slug)}`);
   const c = await getCurso(params.slug, u);
   if (!c) notFound();
   const { rows: ls } = await q(

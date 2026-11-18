@@ -6,8 +6,8 @@ export const metadata = { title: "Cursos", description: "Cursos gratuitos de Som
 export const dynamic = "force-dynamic";
 
 export default async function Cursos() {
-  // Contenido solo para asistentes con cuenta.
-  const u = await exigir("aprender", "view", "/cursos");
+  // Por ahora los cursos no se muestran a los alumnos: solo equipo y admin, que los preparan.
+  const u = await exigir("cursos", "view", "/cursos");
   const { rows } = await q(
     `select c.slug,c.titulo,c.descripcion,c.gratuito,count(l.id)::int lecciones,coalesce(sum(l.minutos),0)::int minutos,
             count(p.leccion_id)::int hechas

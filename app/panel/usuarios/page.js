@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { exigir, crearLinkRestablecer, esDueno } from "@/lib/auth";
 import { q } from "@/lib/db";
-import { ROLES_ASIGNABLES } from "@/lib/permisos";
+import { ROLES_ASIGNABLES, puede } from "@/lib/permisos";
 import PanelTabs from "@/components/PanelTabs";
 
 export const metadata = { title: "Usuarios" };
@@ -51,12 +51,23 @@ async function linkClave(fd) {
   redirect(`/panel/usuarios?link=${token}&para=${t.id}`);
 }
 
+async function eliminar(fd) {
+  "use server";
+  const yo = await exigir("usuarios", "delete", "/panel/usuarios");
+  const t = await objetivo(yo, fd);
+  // Borra la cuenta, sus sesiones y su avance. Si usó un código de asistente, el código queda como usado.
+  await q("delete from usuarios where id=$1", [t.id]);
+  revalidatePath("/panel/usuarios");
+  redirect("/panel/usuarios?ok=eliminada");
+}
+
 const AVISOS = {
   propia: ["err", "Tu propia cuenta se gestiona desde Mi cuenta."],
   dueno: ["err", "La cuenta del dueño no se puede modificar desde el panel."],
   rol: ["ok", "Rol actualizado. Rige desde su próxima acción."],
   activada: ["ok", "Cuenta activada."],
   desactivada: ["ok", "Cuenta desactivada. Se cerraron todas sus sesiones."],
+  eliminada: ["ok", "Cuenta eliminada."],
 };
 
 export default async function Usuarios(props) {
@@ -80,7 +91,7 @@ export default async function Usuarios(props) {
           </div>
         )}
         <div className="tbl"><table>
-          <thead><tr><th>Nombre</th><th>Email</th><th>Alta</th><th>Último ingreso</th><th>Estado</th><th>Rol</th><th>Contraseña</th></tr></thead>
+          <thead><tr><th>Nombre</th><th>Email</th><th>Alta</th><th>Último ingreso</th><th>Estado</th><th>Rol</th><th>Contraseña</th>{puede(yo.rol, "usuarios", "delete") && <th>Eliminar</th>}</tr></thead>
           <tbody>{rows.map(r => {
             const fija = r.id === yo.id || esDueno(r.email);
             return (
@@ -103,6 +114,15 @@ export default async function Usuarios(props) {
                     <button className="btn ghost small" type="submit">Guardar</button>
                   </form>)}</td>
                 <td>{fija ? "—" : <form action={linkClave}><input type="hidden" name="id" value={r.id} /><button className="btn ghost small" type="submit">Crear link</button></form>}</td>
+                {puede(yo.rol, "usuarios", "delete") && <td>{fija ? "—" : (
+                  <details className="confirmar">
+                    <summary className="btn danger small">Eliminar</summary>
+                    <form action={eliminar} className="confirmar-caja">
+                      <input type="hidden" name="id" value={r.id} />
+                      <span>Se borra la cuenta de {r.nombre} y no se puede deshacer.</span>
+                      <button className="btn danger small" type="submit">Sí, eliminar</button>
+                    </form>
+                  </details>)}</td>}
               </tr>);
           })}</tbody>
         </table></div>

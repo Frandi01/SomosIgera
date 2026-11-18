@@ -21,7 +21,7 @@ async function ingresar(fd) {
 
 export default async function Ingresar(props) {
   const searchParams = await props.searchParams;
-  if (await usuarioActual()) redirect("/cursos");
+  if (await usuarioActual()) redirect("/cuenta");
   const volver = safePath(searchParams.volver);
   const wa = await whatsapp().catch(() => null);
   return (

@@ -65,7 +65,7 @@ export default async function Encuesta(props) {
     <div className="wrap narrow section stack">
       <p className="eyebrow">Gracias por venir</p>
       <h1>¿Cómo te fue en <em>la jornada?</em></h1>
-      <p className="muted">Respondé en un minuto y te damos tu código para crear tu cuenta y entrar al contenido: la calculadora de costos, los cursos y la grabación.</p>
+      <p className="muted">Respondé en un minuto y te damos tu código para crear tu cuenta y entrar a la calculadora de costos.</p>
       {sp.error && <p className="msg err" role="alert">{ERR[sp.error] || "Algo salió mal. Probá de nuevo."}</p>}
       <form action={responder} className="panel stack encuesta">
         <input type="hidden" name="k" value={sp.k} />
@@ -113,7 +113,7 @@ function Listo({ codigo, usado }) {
             <span className="muted">Sirve una sola vez, para crear tu cuenta. Guardalo o sacale una captura.</span>
             <div className="row"><Link className="button" href={`/registro?codigo=${encodeURIComponent(codigo)}`}>Crear mi cuenta <span aria-hidden="true">↗</span></Link><Copiar texto={codigo} /></div>
           </div>
-          <p className="muted">Con tu cuenta entrás a la calculadora de costos, los cursos y la grabación de la jornada.</p>
+          <p className="muted">Con tu cuenta entrás a la calculadora de costos.</p>
         </>
       )}
     </div>

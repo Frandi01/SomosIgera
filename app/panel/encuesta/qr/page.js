@@ -16,7 +16,7 @@ export default async function QrProyectar() {
       <div className="qr-proyectar-texto">
         <p className="eyebrow">Gracias por venir</p>
         <h1>Escaneá, contanos cómo te fue <em>y recibí tu acceso.</em></h1>
-        <p className="muted">Completá la encuesta y te damos tu código para entrar a la calculadora, los cursos y la grabación.</p>
+        <p className="muted">Completá la encuesta y te damos tu código para entrar a la calculadora de costos.</p>
         {!abierta && <p className="msg err" role="alert">La encuesta está cerrada: abrila desde el panel antes de mostrar el QR.</p>}
       </div>
       <div className="qr-proyectar-codigo" dangerouslySetInnerHTML={{ __html: svg }} role="img" aria-label="Código QR de la encuesta" />

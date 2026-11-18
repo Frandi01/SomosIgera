@@ -34,6 +34,18 @@ async function codigoManual(fd) {
   redirect(`/panel/encuesta?nuevo=${encodeURIComponent(c)}`);
 }
 
+async function borrarRespuesta(fd) {
+  "use server";
+  await exigir("encuesta", "manage", "/panel/encuesta");
+  const id = parseInt(fd.get("id"));
+  if (id) {
+    // El código se borra junto con la respuesta; si ya se usó, la cuenta creada no se toca.
+    await q("delete from codigos where encuesta_id=$1", [id]);
+    await q("delete from encuestas where id=$1", [id]);
+  }
+  redirect("/panel/encuesta?ok=borrada");
+}
+
 const fecha = d => new Date(d).toLocaleString("es-AR", { timeZone: "America/Argentina/Buenos_Aires", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
 
 export default async function PanelEncuesta(props) {
@@ -58,6 +70,7 @@ export default async function PanelEncuesta(props) {
       <PanelTabs actual="/panel/encuesta" rol={u.rol} />
       <div className="stack">
         {sp.ok === "link" && <p className="msg ok" role="status">Link nuevo generado. El QR anterior ya no funciona.</p>}
+        {sp.ok === "borrada" && <p className="msg ok" role="status">Respuesta y código borrados.</p>}
         {sp.error === "nota" && <p className="msg err" role="alert">Escribí para quién es el código.</p>}
         {sp.nuevo && <div className="msg ok row" role="status"><span>Código creado: <b>{sp.nuevo}</b>. Pasáselo a la persona; sirve una sola vez.</span><Copiar texto={sp.nuevo} /></div>}
 
@@ -101,12 +114,22 @@ export default async function PanelEncuesta(props) {
         <div className="row" style={{ justifyContent: "space-between" }}><h2>Respuestas</h2>{n > 0 && <a className="btn small ghost" href="/panel/encuesta/csv">Descargar CSV</a>}</div>
         {n === 0 ? <p className="muted">Todavía no hay respuestas.</p> : (
           <div className="tbl"><table>
-            <thead><tr><th>Fecha</th><th>Nombre</th><th>Email</th><th className="num">Útil</th><th className="num">Recomienda</th><th>Tema</th><th>Va a aplicar</th><th>Próximo</th><th>Comentario</th><th>Código</th></tr></thead>
+            <thead><tr><th>Fecha</th><th>Nombre</th><th>Email</th><th className="num">Útil</th><th className="num">Recomienda</th><th>Tema</th><th>Va a aplicar</th><th>Próximo</th><th>Comentario</th><th>Código</th>{puede(u.rol, "encuesta", "manage") && <th></th>}</tr></thead>
             <tbody>{rows.map(r => (
               <tr key={r.id}>
                 <td>{fecha(r.fecha)}</td><td>{r.nombre}</td><td>{r.email || "—"}</td><td className="num">{r.utilidad}</td><td className="num">{r.recomienda}</td><td>{r.tema || "—"}</td>
                 <td style={{ whiteSpace: "normal", minWidth: 200 }}>{r.aplicar || "—"}</td><td style={{ whiteSpace: "normal", minWidth: 160 }}>{r.proximo || "—"}</td><td style={{ whiteSpace: "normal", minWidth: 200 }}>{r.comentario || "—"}</td>
                 <td>{r.codigo}{" "}{r.usado ? <span className="pill ok">Usado</span> : <span className="pill gray">Sin usar</span>}</td>
+                {puede(u.rol, "encuesta", "manage") && <td>
+                  <details className="confirmar">
+                    <summary className="btn danger small">Borrar</summary>
+                    <form action={borrarRespuesta} className="confirmar-caja">
+                      <input type="hidden" name="id" value={r.id} />
+                      <span>Se borran la respuesta y su código. No se puede deshacer.</span>
+                      <button className="btn danger small" type="submit">Sí, borrar</button>
+                    </form>
+                  </details>
+                </td>}
               </tr>))}
             </tbody>
           </table></div>
