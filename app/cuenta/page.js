@@ -41,6 +41,7 @@ export default async function Cuenta(props) {
       </div>
       <h2>Tu contenido</h2>
       <div className="cards">
+        <a href="/negocio" className="panel card"><span className="eyebrow">Todos los días</span><h3>Mi negocio</h3><p className="muted">Cargá ventas y gastos, mirá tu caja y si cubrís el mes, y revisá tus costos y precios.</p></a>
         <a href="/calculadora" className="panel card"><span className="eyebrow">Herramienta</span><h3>Calculadora de costos</h3><p className="muted">Cuánto te cuesta cada servicio, a cuánto cobrarlo y cuántos necesitás para cubrir el mes.</p></a>
       </div>
       <h2>Seguridad</h2>

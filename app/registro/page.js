@@ -37,13 +37,13 @@ async function registrar(fd) {
 
 export default async function Registro(props) {
   const searchParams = await props.searchParams;
-  if (await usuarioActual()) redirect("/cuenta");
+  if (await usuarioActual()) redirect("/negocio");
   const volver = safePath(searchParams.volver);
   return (
     <div className="wrap narrow section stack">
       <p className="eyebrow">Para asistentes a la jornada</p>
       <h1>Creá tu <em>cuenta.</em></h1>
-      <p className="muted">Con tu cuenta entrás a la calculadora de costos. Necesitás el código que recibiste al completar la encuesta del evento.</p>
+      <p className="muted">Con tu cuenta entrás a tu panel: ventas, gastos, costos, precios y la calculadora. Necesitás el código que recibiste al completar la encuesta del evento.</p>
       <Aviso error={searchParams.error} />
       <form action={registrar} className="panel stack">
         <input type="hidden" name="volver" value={volver} />

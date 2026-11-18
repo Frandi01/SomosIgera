@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 // 1. Fuerza HTTPS en producción (Railway termina TLS y avisa el protocolo en x-forwarded-proto).
 // 2. Sin cookie de sesión no se entra al panel, la cuenta ni al contenido para asistentes. El control real (sesión vigente,
 //    cuenta activa y permiso por sección) lo hace cada página contra la base.
-const PRIVADAS = ["/panel", "/cuenta", "/cursos", "/calculadora"];
+const PRIVADAS = ["/panel", "/cuenta", "/cursos", "/calculadora", "/negocio"];
 
 export function proxy(req) {
   if (process.env.NODE_ENV === "production" && req.headers.get("x-forwarded-proto") === "http") {
@@ -22,4 +22,4 @@ export function proxy(req) {
   }
   return NextResponse.next();
 }
-export const config = { matcher: ["/((?!_next/static|_next/image|og.png|sitio.css|health|marca/|fonts/|favicon.svg|apple-touch-icon.png).*)"] };
+export const config = { matcher: ["/((?!_next/static|_next/image|og.png|sitio.css|manifest.webmanifest|icono-|health|marca/|fonts/|favicon.svg|apple-touch-icon.png).*)"] };

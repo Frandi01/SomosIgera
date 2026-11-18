@@ -4,25 +4,32 @@ import { verificar, iniciarSesion, normEmail, limitarIngreso, usuarioActual } fr
 import { safePath } from "@/lib/util";
 import Aviso from "@/components/Aviso";
 import { whatsapp } from "@/lib/ajustes";
+import { q } from "@/lib/db";
+import { accedePanel } from "@/lib/permisos";
 
 export const metadata = { title: "Ingresar" };
 
 async function ingresar(fd) {
   "use server";
   const volver = safePath(fd.get("volver"));
-  const back = c => redirect(`/ingresar?error=${c}&volver=${encodeURIComponent(volver)}`);
+  const back = c => redirect(`/ingresar?error=${c}&volver=${encodeURIComponent(String(fd.get("volver") || ""))}`);
   const email = normEmail(fd.get("email"));
   if ((await limitarIngreso(email)).limitado) back("intentos");
   const id = await verificar(email, String(fd.get("password") || ""));
   if (!id) back("login");
   await iniciarSesion(id);
+  // Sin destino pedido: el equipo va al panel de gestión; el resto, a su negocio.
+  if (!fd.get("volver")) {
+    const { rows } = await q("select rol from usuarios where id=$1", [id]);
+    if (accedePanel(rows[0]?.rol)) redirect("/panel");
+  }
   redirect(volver);
 }
 
 export default async function Ingresar(props) {
   const searchParams = await props.searchParams;
-  if (await usuarioActual()) redirect("/cuenta");
-  const volver = safePath(searchParams.volver);
+  if (await usuarioActual()) redirect("/negocio");
+  const volver = searchParams.volver ? safePath(searchParams.volver) : "";
   const wa = await whatsapp().catch(() => null);
   return (
     <div className="wrap narrow section stack">
