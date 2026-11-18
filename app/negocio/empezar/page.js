@@ -3,6 +3,7 @@ import { exigir } from "@/lib/auth";
 import { q } from "@/lib/db";
 import { elegirPlantilla, plantilla, MEDIOS } from "@/lib/plantillas";
 import { texto } from "@/lib/negocio";
+import Pasos from "@/components/Pasos";
 
 export const metadata = { title: "Contanos de tu negocio" };
 export const dynamic = "force-dynamic";
@@ -36,7 +37,7 @@ async function guardar(fd) {
 
 const Opciones = ({ name, lista, tipo = "radio", marcados = [] }) => (
   <div className="opciones-lista">{lista.map(([v, t, s]) => (
-    <label key={v} className="opcion"><input type={tipo} name={name} value={v} defaultChecked={marcados.includes(v)} required={tipo === "radio"} /><span><b>{t}</b>{s && <small>{s}</small>}</span></label>
+    <label key={v} className="opcion"><input type={tipo} name={name} value={v} defaultChecked={marcados.includes(v)} /><span><b>{t}</b>{s && <small>{s}</small>}</span></label>
   ))}</div>
 );
 
@@ -46,19 +47,20 @@ export default async function Empezar(props) {
   const { rows: [n] } = await q("select * from negocios where usuario_id=$1", [u.id]);
   return (
     <div className="wrap narrow section stack">
-      <p className="eyebrow">Paso 1 de 2</p>
+      <p className="eyebrow">Un minuto y listo</p>
       <h1>Contanos de <em>tu negocio.</em></h1>
-      <p className="muted">Con estas respuestas armamos tu panel: qué vas a registrar, con qué palabras y qué ves primero. Lo podés cambiar cuando quieras.</p>
+      <p className="muted">Con 7 preguntas cortas armamos tu panel. Lo podés cambiar cuando quieras.</p>
       {sp.error && <p className="msg err" role="alert">Respondé todas las preguntas y elegí al menos un medio de pago.</p>}
-      <form action={guardar} className="panel stack">
-        <label htmlFor="n-nombre">Nombre del negocio<small>Opcional</small><input id="n-nombre" name="nombre" maxLength={120} defaultValue={n?.nombre || ""} /></label>
-        <fieldset className="pregunta"><legend>1. ¿Qué vendés?</legend><Opciones name="vende" lista={VENDE} marcados={[n?.que_vende]} /></fieldset>
-        <fieldset className="pregunta"><legend>2. ¿De qué rubro?</legend><Opciones name="rubro" lista={RUBROS} marcados={[n?.rubro]} /></fieldset>
-        <label htmlFor="n-personas">3. ¿Cuántas personas trabajan, contándote?<input id="n-personas" name="personas" type="number" min={1} max={500} defaultValue={n?.personas || 1} style={{ maxWidth: 140 }} /></label>
-        <fieldset className="pregunta"><legend>4. ¿Tenés local?</legend><Opciones name="local" lista={LOCAL} marcados={[n?.local]} /></fieldset>
-        <fieldset className="pregunta"><legend>5. ¿Cómo te pagan?</legend><Opciones name="medios" tipo="checkbox" lista={Object.entries(MEDIOS).map(([v, t]) => [v, t])} marcados={n?.medios || ["efectivo", "transferencia"]} /></fieldset>
-        <fieldset className="pregunta"><legend>6. ¿Qué querés resolver primero?</legend><Opciones name="prioridad" lista={PRIORIDAD} marcados={[n?.prioridad]} /></fieldset>
-        <button className="button" type="submit">{n ? "Guardar cambios" : "Armar mi panel"}</button>
+      <form action={guardar} className="panel">
+        <Pasos enviar={n ? "Guardar cambios" : "Armar mi panel"}>
+          <fieldset className="pregunta"><legend>¿Qué vendés?</legend><Opciones name="vende" lista={VENDE} marcados={[n?.que_vende]} /></fieldset>
+          <fieldset className="pregunta"><legend>¿De qué rubro?</legend><Opciones name="rubro" lista={RUBROS} marcados={[n?.rubro]} /></fieldset>
+          <label htmlFor="n-personas" className="pregunta-texto">¿Cuántas personas trabajan, contándote?<input id="n-personas" name="personas" type="number" min={1} max={500} defaultValue={n?.personas || 1} style={{ maxWidth: 160 }} /></label>
+          <fieldset className="pregunta"><legend>¿Tenés local?</legend><Opciones name="local" lista={LOCAL} marcados={[n?.local]} /></fieldset>
+          <fieldset className="pregunta"><legend>¿Cómo te pagan?</legend><p className="muted" style={{ marginBottom: 10 }}>Podés elegir varios.</p><Opciones name="medios" tipo="checkbox" lista={Object.entries(MEDIOS).map(([v, t]) => [v, t])} marcados={n?.medios || ["efectivo", "transferencia"]} /></fieldset>
+          <fieldset className="pregunta"><legend>¿Qué querés resolver primero?</legend><Opciones name="prioridad" lista={PRIORIDAD} marcados={[n?.prioridad]} /></fieldset>
+          <label htmlFor="n-nombre" className="pregunta-texto">¿Cómo se llama tu negocio?<small>Opcional. Es el título de tu panel.</small><input id="n-nombre" name="nombre" maxLength={120} defaultValue={n?.nombre || ""} /></label>
+        </Pasos>
       </form>
     </div>
   );

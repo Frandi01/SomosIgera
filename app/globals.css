@@ -200,3 +200,12 @@ fieldset.pregunta legend{font-size:.95rem;font-weight:800;padding:0;margin-botto
 .item-resultado{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem;color:var(--muted)}
 .item-resultado b{color:var(--ink)}
 .item-acciones{grid-column:1/-1;justify-content:space-between}
+.pasos{display:grid;gap:14px}
+.pasos-barra{height:6px;border-radius:100px;background:var(--soft);overflow:hidden}
+.pasos-barra span{display:block;height:100%;background:var(--coral);transition:width .3s}
+.pasos-cuenta{font-size:.82rem;font-weight:700;margin-top:-4px}
+.paso{animation:paso-in .25s ease}
+@keyframes paso-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.paso{animation:none}.pasos-barra span{transition:none}}
+.pregunta-texto{font-size:.95rem;font-weight:800}
+.pasos-nav{justify-content:space-between}
