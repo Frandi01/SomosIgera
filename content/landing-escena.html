@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://persistent.oaistatic.com/plugins/visualize/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://persistent.oaistatic.com/plugins/visualize/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://persistent.oaistatic.com/plugins/visualize/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://persistent.oaistatic.com/plugins/visualize/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://persistent.oaistatic.com/plugins/visualize/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Los números de tu salón · Somos Igera</title>
+  <style>
+    :root { color-scheme:dark;font-family:Archivo,system-ui,sans-serif;--plum:#211629;--cream:#fff8ed;--coral:#f58b70; }
+    * { box-sizing:border-box; }
+    body { margin:0;min-height:100dvh;overflow:hidden;color:var(--cream); }
+    .stage { height:100dvh;position:relative;isolation:isolate;display:grid;grid-template-rows:auto minmax(0,1fr);align-items:center;padding:clamp(19px,5vw,42px);background:linear-gradient(140deg,#3f2c53,var(--plum) 77%);overflow:hidden; }
+    .stage::before { content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(146deg,transparent 0 88px,#f8d3f318 89px 90px,transparent 91px 148px); }
+    .glow { position:absolute;z-index:-1;width:80%;height:130%;top:-15%;left:10%;background:radial-gradient(ellipse at center,#a8506785 0%,#60345554 40%,transparent 66%);transform:translate3d(var(--glow-x,0%),var(--glow-y,0%),0); }
+    .sweep { position:absolute;inset:-40% -35%;z-index:-1;background:linear-gradient(109deg,transparent 46%,#e597a143 50%,#ffd3b738 51%,transparent 55%);opacity:var(--sweep-alpha,0);transform:translateX(var(--sweep-x,0%)); }
+    .heading { display:flex;justify-content:space-between;align-items:center;gap:12px; }
+    .heading h1 { margin:0;color:var(--cream);font-size:clamp(.85rem,3.6vw,1.44rem);font-weight:800;letter-spacing:-.035em; }
+    .mark { display:grid;gap:3px;transform:rotate(-12deg); }
+    .mark i { width:20px;height:5px;background:var(--cream);clip-path:polygon(14% 0,100% 0,86% 100%,0 100%); }
+    .mark i:nth-child(2) { background:var(--coral); }
+    .board { display:grid;align-items:center;justify-items:center;align-content:center;gap:clamp(7px,2vw,14px);min-width:0;min-height:0;perspective:550px; }
+    .tile { display:grid;grid-template-columns:auto minmax(0,1fr) minmax(40px,.5fr);align-items:center;gap:clamp(9px,2.9vw,20px);position:relative;isolation:isolate;overflow:hidden;width:89%;min-height:clamp(49px,14.5vw,80px);padding:8px clamp(12px,5.2vw,29px);background:#4b355e;border:1px solid #c4a1c566;border-radius:15px;box-shadow:0 7px 22px #17101f60;transform:translate3d(var(--x,0%),calc(var(--y,0%) * var(--spread,1)),0) rotateZ(var(--angle,0deg)) rotateY(var(--ry,0deg)) scale(var(--scale,1)); }
+    .tile::before { content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,#f49a82,#e8a18d);opacity:var(--light,0); }
+    .tile[data-focus="true"] { color:#291a33; }
+    .tile[data-focus="true"] .overline { color:#362240; }
+    .glyph { display:grid;place-content:center;width:clamp(30px,7.6vw,44px);height:clamp(30px,7.6vw,44px);border-radius:11px;border:1px solid currentColor;font-size:clamp(.87rem,4vw,1.34rem);font-weight:850; }
+    .overline { display:block;margin-bottom:2px;color:#ead8ed;font-size:clamp(.49rem,2.2vw,.7rem);line-height:1.1;letter-spacing:.095em;text-transform:uppercase;font-weight:750; }
+    .label { display:grid;min-height:1.14em;color:inherit;font-size:clamp(.74rem,3.55vw,1.34rem);line-height:1.14;font-weight:850;letter-spacing:-.025em; }
+    .label span { grid-area:1/1; }
+    .label .before,.tile[data-organized="false"] .after { visibility:hidden; }
+    .tile[data-organized="false"] .before { visibility:visible; }
+    .mini { display:flex;align-items:center;justify-content:flex-end;gap:clamp(2px,1vw,7px);opacity:.88; }
+    .meter { position:relative;display:flex;width:min(100%,88px);height:8px;overflow:hidden;border-radius:4px;background:#21162942; }
+    .meter i { display:block;width:var(--portion);height:100%;background:currentColor;transform:scaleX(var(--fill,1));transform-origin:left; }
+    .meter i:nth-child(1) { --portion:36%;opacity:.43; }
+    .meter i:nth-child(2) { --portion:25%;opacity:.64; }
+    .meter i:nth-child(3) { --portion:39%; }
+    .coins i { display:grid;place-content:center;width:clamp(13px,4vw,26px);aspect-ratio:1;border:1px solid currentColor;border-radius:50%;font-style:normal;font-size:clamp(.57rem,2.35vw,.92rem);font-weight:800; }
+    .coins i:first-child { transform:translateX(calc((1 - var(--fill,1)) * 9px)); }
+    .coins i:last-child { background:#21162936;transform:translateX(calc((1 - var(--fill,1)) * -7px)); }
+    .appointments i { display:grid;place-content:center;width:clamp(10px,3.5vw,20px);aspect-ratio:1;border:1px solid currentColor;border-radius:4px;font-size:clamp(.5rem,2vw,.78rem);font-style:normal;font-weight:800; }
+    .appointments i span { opacity:var(--fill,1); }
+    .appointments i:nth-child(2) span { opacity:clamp(0,(var(--fill,1) - .36) * 2,1); }
+    .appointments i:nth-child(3) span { opacity:clamp(0,(var(--fill,1) - .65) * 3,1); }
+    @media(min-width:431px) and (max-height:370px) {
+      .stage { padding:23px 26px; }
+      .board { gap:9px; }
+      .tile { min-height:64px; }
+    }
+    @media(max-width:430px), (max-height:260px) {
+      .stage { padding:15px 14px 16px; }
+      .board { gap:6px; }
+      .tile { width:92%;min-height:46px;border-radius:10px;padding-inline:10px; }
+      .meter { height:6px; }
+      .glyph { border-radius:8px; }
+    }
+    @media(max-height:195px) {
+      .stage { padding:10px 12px;--spread:.45; }
+      .board { gap:4px; }
+      .tile { min-height:40px;padding-block:4px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="sweep" aria-hidden="true"></div>
+    <div class="heading"><h1>Tu salón, en números</h1><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span></div>
+    <div class="board" aria-label="De precios a ojo, caja mezclada y turnos sueltos a precio con margen, caja ordenada y clientes que vuelven">
+      <div class="tile" aria-hidden="true"><span class="glyph">$</span><div><span class="overline">Costos</span><div class="label"><span class="before">Precios a ojo</span><span class="after">Precio con margen</span></div></div><span class="mini"><span class="meter"><i></i><i></i><i></i></span></span></div>
+      <div class="tile" aria-hidden="true"><span class="glyph">≡</span><div><span class="overline">Administración</span><div class="label"><span class="before">Caja mezclada</span><span class="after">Caja ordenada</span></div></div><span class="mini coins"><i>+</i><i>−</i></span></div>
+      <div class="tile" aria-hidden="true"><span class="glyph">✓</span><div><span class="overline">Marketing</span><div class="label"><span class="before">Turnos sueltos</span><span class="after">Clientes que vuelven</span></div></div><span class="mini appointments"><i><span>✓</span></i><i><span>✓</span></i><i><span>✓</span></i></span></div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const stage = document.querySelector('.stage');
+      const tiles = [...document.querySelectorAll('.tile')];
+      const motion = matchMedia('(prefers-reduced-motion: reduce)');
+      const clamp = (value) => Math.min(1, Math.max(0, value));
+      const ease = (value) => value * value * (3 - 2 * value);
+      const start = [[-9, -23, -7, -20], [12, -2, 6, 23], [-7, 25, -7, -13]];
+      let current = 0;
+      let forceStatic = false;
+
+      function render() {
+        const still = forceStatic || motion.matches;
+        stage.style.setProperty('--glow-x', still ? '0%' : `${-21 + current * 12}%`);
+        stage.style.setProperty('--glow-y', still ? '0%' : `${-23 + current * 13}%`);
+        const alignment = clamp(current / 1.35);
+        stage.style.setProperty('--sweep-x', `${-48 + alignment * 100}%`);
+        stage.style.setProperty('--sweep-alpha', still ? 0 : Math.sin(alignment * Math.PI));
+
+        tiles.forEach((tile, index) => {
+          const [x, y, rotation, depth] = start[index];
+          const order = still ? 1 : ease(clamp((current - index * .09) / (1.1 + index * .2)));
+          const focus = still ? 0 : ease(clamp(1 - Math.abs(current - index - 1)));
+          const disorder = 1 - order;
+          tile.style.setProperty('--x', `${x * disorder}%`);
+          tile.style.setProperty('--y', `${y * disorder}%`);
+          tile.style.setProperty('--angle', `${rotation * disorder}deg`);
+          tile.style.setProperty('--ry', `${depth * disorder}deg`);
+          tile.style.setProperty('--scale', .88 + order * .12 + focus * .07);
+          tile.style.setProperty('--order', order);
+          tile.style.setProperty('--light', focus * .98);
+          tile.style.setProperty('--fill', still ? 1 : ease(clamp(current - index)));
+          tile.dataset.focus = String(focus > .53);
+          tile.dataset.organized = String(order >= .62);
+        });
+      }
+
+      window.addEventListener('message', (event) => {
+        if (event.source !== parent || event.data?.type !== 'igera-scroll' || !Number.isFinite(event.data.progress)) return;
+        current = Math.max(0, Math.min(3, event.data.progress));
+        forceStatic = event.data.reduced === true;
+        render();
+      });
+      motion.addEventListener('change', render);
+      render();
+    })();
+  </script>
+</body>
+</html>
