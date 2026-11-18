@@ -187,7 +187,7 @@ html{scroll-behavior:smooth}
    Misma paleta y misma tipografía (Archivo). Animaciones solo si html.anim
    (lo agrega un script cuando NO hay prefers-reduced-motion); sin JS todo se ve igual. */
 .inicio section{padding-block:72px}
-.inicio h2{margin-top:10px}
+.inicio section h2{margin-top:0}
 .inicio .lead{font-size:1.15rem}
 
 /* nav en celular: solo logo, Ingresar e Inscribirme en una línea */
