@@ -4,8 +4,6 @@
   const root = document.documentElement;
   const header = document.querySelector('.site-header');
   const hero = document.querySelector('.hero');
-  const problems = document.querySelector('.problems');
-  const bridge = document.querySelector('.chapter-bridge');
   const solution = document.querySelector('.solution');
   const sceneTrack = document.querySelector('.solution-track');
   const scene = document.querySelector('.solution-scene');
@@ -13,6 +11,7 @@
   const topics = [...document.querySelectorAll('[data-topic]')];
   const segments = [...document.querySelectorAll('.scene-meter span')];
   const sceneHint = document.querySelector('.scene-hint').firstChild;
+  const marketing = document.querySelector('.marketing-panel');
   const timeline = document.querySelector('.timeline');
   const program = document.querySelector('.program-panel');
   const registration = document.querySelector('.registration');
@@ -20,7 +19,7 @@
   const stickyCta = document.querySelector('.mobile-cta');
   const menu = document.querySelector('.mobile-nav');
   const navLinks = [...document.querySelectorAll('.desktop-nav a, .mobile-nav a, .header-actions > a')];
-  const navSections = [...document.querySelectorAll('#jornada, #temario, #programa, #inscripcion, #preguntas')];
+  const navSections = [...document.querySelectorAll('#jornada, #temario, #marketing, #programa, #inscripcion, #preguntas')];
   const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
   const eased = (value) => value * value * (3 - 2 * value);
   const set = (element, property, value) => element.style.setProperty(property, String(value));
@@ -37,8 +36,7 @@
     const maxScroll = root.scrollHeight - height;
     const reduced = motion.matches;
     const heroRect = hero.getBoundingClientRect();
-    const problemsRect = problems.getBoundingClientRect();
-    const bridgeRect = bridge.getBoundingClientRect();
+    const marketingRect = marketing.getBoundingClientRect();
     const trackRect = sceneTrack.getBoundingClientRect();
     const sceneHeight = scene.offsetHeight;
     const headerHeight = header.offsetHeight;
@@ -52,8 +50,7 @@
     const progress = pinned ? clamp((scrollThroughScene - .015) / .87) * 3 : 3;
     const inPinnedScene = pinned && trackRect.top <= headerHeight + 1 && trackRect.bottom >= sceneHeight + headerHeight - 1;
     const heroProgress = clamp(scroll / Math.max(1, heroRect.height));
-    const problemProgress = eased(clamp((height * 0.88 - problemsRect.top) / (height * 0.56)));
-    const bridgeProgress = clamp((height * 0.93 - bridgeRect.top) / (height * 0.58));
+    const marketingProgress = eased(clamp((height * 0.9 - marketingRect.top) / (height * 0.48)));
     const lineProgress = clamp((height * 0.86 - timelineRect.top) / Math.max(1, timelineRect.height));
     const ticketProgress = eased(clamp((height * 0.96 - registerRect.top) / (height * 0.59)));
     const isMobileCtaVisible = narrow.matches && !inPinnedScene && heroRect.bottom < height * 0.32 && registerRect.top > height * 0.68;
@@ -62,8 +59,7 @@
     set(hero, '--photo-shift', reduced ? '0px' : `${heroProgress * (narrow.matches ? 10 : 22)}px`);
     set(hero, '--photo-scale', reduced ? 1 : 1.05 + heroProgress * 0.1);
     set(hero, '--ribbon-shift', reduced ? '0px' : `${-heroProgress * 40}px`);
-    set(problems, '--problem-progress', reduced ? 1 : problemProgress);
-    set(bridge, '--bridge-shift', reduced ? '0px' : `${(1 - bridgeProgress) * -12}px`);
+    set(marketing, '--marketing-progress', reduced ? 1 : marketingProgress);
     set(timeline, '--line-progress', reduced ? 1 : lineProgress);
     set(program, '--program-shift', reduced ? '0px' : `${(lineProgress - 0.5) * 70}px`);
     set(registration, '--register-shift', reduced ? '0px' : `${(1 - ticketProgress) * 42}px`);
@@ -84,7 +80,7 @@
     segments.forEach((segment, index) => set(segment, '--segment', clamp(progress - index)));
     const sceneDone = progress === 3;
     if (lastSceneDone !== sceneDone) {
-      sceneHint.nodeValue = sceneDone ? 'Seguí hacia el programa ' : 'Seguí bajando para avanzar ';
+      sceneHint.nodeValue = sceneDone ? 'Seguí para explorar marketing ' : 'Seguí bajando para avanzar ';
       lastSceneDone = sceneDone;
     }
 
